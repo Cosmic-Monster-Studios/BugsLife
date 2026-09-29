@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:terrarium"
+    },
+    "title": {
+      "translate": "advancements.bugslife.terrarium.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.terrarium.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:bug_action",
+      "conditions": {
+        "action": "terrarium_insert"
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

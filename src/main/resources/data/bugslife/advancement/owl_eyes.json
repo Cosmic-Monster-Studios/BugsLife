@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:phantom_membrane"
+    },
+    "title": {
+      "translate": "advancements.bugslife.owl_eyes.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.owl_eyes.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:bug_action",
+      "conditions": {
+        "action": "owl_scare"
+      }
+    }
+  },
+  "parent": "bugslife:rare_find"
+}

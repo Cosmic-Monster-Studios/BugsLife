@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:spyglass"
+    },
+    "title": {
+      "translate": "advancements.bugslife.now_you_see_me.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.now_you_see_me.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "leaf_insect"
+      }
+    }
+  },
+  "parent": "bugslife:rare_find"
+}

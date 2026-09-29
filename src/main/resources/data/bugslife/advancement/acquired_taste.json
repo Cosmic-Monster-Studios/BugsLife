@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:crunchy_grub"
+    },
+    "title": {
+      "translate": "advancements.bugslife.acquired_taste.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.acquired_taste.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "raw": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:crunchy_grub"
+        }
+      }
+    },
+    "roasted": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:roasted_grub"
+        }
+      }
+    }
+  },
+  "parent": "bugslife:root",
+  "requirements": [
+    [
+      "raw",
+      "roasted"
+    ]
+  ]
+}

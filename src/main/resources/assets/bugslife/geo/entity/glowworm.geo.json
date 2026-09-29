@@ -1,0 +1,87 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.glowworm",
+				"texture_width": 32,
+				"texture_height": 32,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "body",
+					"pivot": [0, 15, 0],
+					"cubes": [
+						{"origin": [-1, 14, -4], "size": [2, 1, 6], "uv": [12, 0]},
+						{"origin": [-1, 14, 2], "size": [2, 1, 2], "uv": [0, 14]},
+						{"origin": [-0.5, 14.2, -5], "size": [1, 1, 1], "uv": [8, 14]}
+					]
+				},
+				{
+					"name": "threads",
+					"parent": "body",
+					"pivot": [0, 14, 0]
+				},
+				{
+					"name": "thread_0",
+					"parent": "threads",
+					"pivot": [1.5, 14, -2],
+					"cubes": [
+						{"origin": [1.5, 4, -2], "size": [0, 10, 1], "uv": [6, 0]}
+					]
+				},
+				{
+					"name": "thread_1",
+					"parent": "threads",
+					"pivot": [-0.5, 14, -3],
+					"cubes": [
+						{"origin": [-0.5, 1, -3], "size": [0, 13, 1], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "thread_2",
+					"parent": "threads",
+					"pivot": [-1.5, 14, 0],
+					"cubes": [
+						{"origin": [-1.5, 6, 0], "size": [0, 8, 1], "uv": [10, 0]}
+					]
+				},
+				{
+					"name": "thread_3",
+					"parent": "threads",
+					"pivot": [0.5, 14, 1],
+					"cubes": [
+						{"origin": [0.5, 2, 1], "size": [0, 12, 1], "uv": [2, 0]}
+					]
+				},
+				{
+					"name": "thread_4",
+					"parent": "threads",
+					"pivot": [-0.5, 14, 3],
+					"cubes": [
+						{"origin": [-0.5, 5, 3], "size": [0, 9, 1], "uv": [8, 0]}
+					]
+				},
+				{
+					"name": "thread_5",
+					"parent": "threads",
+					"pivot": [1.5, 14, 2],
+					"cubes": [
+						{"origin": [1.5, 8, 2], "size": [0, 6, 1], "uv": [28, 0]}
+					]
+				},
+				{
+					"name": "thread_6",
+					"parent": "threads",
+					"pivot": [-1.5, 14, -1],
+					"cubes": [
+						{"origin": [-1.5, 3, -1], "size": [0, 11, 1], "uv": [4, 0]}
+					]
+				}
+			]
+		}
+	]
+}

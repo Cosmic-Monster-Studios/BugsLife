@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:sculk_sensor"
+    },
+    "title": {
+      "translate": "advancements.bugslife.hush.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.hush.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "sculk_mite"
+      }
+    }
+  },
+  "parent": "bugslife:rare_find"
+}

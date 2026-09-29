@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "bugslife:chitin_block",
+    "bugslife:chitin_tiles",
+    "bugslife:chitin_tile_stairs",
+    "bugslife:chitin_tile_slab",
+    "bugslife:shell_lamp"
+  ]
+}

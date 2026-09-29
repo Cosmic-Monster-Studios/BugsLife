@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:silk"
+    },
+    "title": {
+      "translate": "advancements.bugslife.harvest.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.harvest.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:bug_action",
+      "conditions": {
+        "action": "terrarium_harvest"
+      }
+    }
+  },
+  "parent": "bugslife:terrarium"
+}

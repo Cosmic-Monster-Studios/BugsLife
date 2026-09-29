@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GGG",
+    "GJG",
+    "PDP"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass_blocks/colorless"
+    },
+    "J": {
+      "item": "bugslife:bug_jar"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "D": {
+      "tag": "minecraft:dirt"
+    }
+  },
+  "result": {
+    "id": "bugslife:terrarium",
+    "count": 1
+  }
+}

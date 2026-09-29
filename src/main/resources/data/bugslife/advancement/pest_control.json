@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:wheat"
+    },
+    "title": {
+      "translate": "advancements.bugslife.pest_control.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.pest_control.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:bug_action",
+      "conditions": {
+        "action": "witness_hunt"
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

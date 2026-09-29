@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "bugslife:bug_net",
+    "bugslife:silk_net",
+    "bugslife:chitin_shield",
+    "bugslife:chitin_helmet",
+    "bugslife:chitin_chestplate",
+    "bugslife:chitin_leggings",
+    "bugslife:chitin_boots"
+  ]
+}

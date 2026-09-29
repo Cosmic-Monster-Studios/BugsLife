@@ -1,0 +1,99 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:bug_skewer"
+    },
+    "title": {
+      "translate": "advancements.bugslife.gourmet.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.gourmet.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "roasted_grub": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:roasted_grub"
+        }
+      }
+    },
+    "bug_skewer": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:bug_skewer"
+        }
+      }
+    },
+    "cricket_cookie": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:cricket_cookie"
+        }
+      }
+    },
+    "candied_grub": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:candied_grub"
+        }
+      }
+    },
+    "glow_jelly": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:glow_jelly"
+        }
+      }
+    },
+    "honeydew": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:honeydew"
+        }
+      }
+    },
+    "royal_jelly": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "bugslife:royal_jelly"
+        }
+      }
+    }
+  },
+  "parent": "bugslife:acquired_taste",
+  "requirements": [
+    [
+      "roasted_grub"
+    ],
+    [
+      "bug_skewer"
+    ],
+    [
+      "cricket_cookie"
+    ],
+    [
+      "candied_grub"
+    ],
+    [
+      "glow_jelly"
+    ],
+    [
+      "honeydew"
+    ],
+    [
+      "royal_jelly"
+    ]
+  ]
+}

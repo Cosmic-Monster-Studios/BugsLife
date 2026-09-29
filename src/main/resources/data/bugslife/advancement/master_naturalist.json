@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:silk_net"
+    },
+    "title": {
+      "translate": "advancements.bugslife.master_naturalist.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.master_naturalist.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:bug_action",
+      "conditions": {
+        "action": "discover_50"
+      }
+    }
+  },
+  "parent": "bugslife:serious_collector"
+}

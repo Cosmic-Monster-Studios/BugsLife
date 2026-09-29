@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CTC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "bugslife:chitin"
+    },
+    "T": {
+      "item": "bugslife:terrarium"
+    }
+  },
+  "result": {
+    "id": "bugslife:reinforced_terrarium",
+    "count": 1
+  }
+}

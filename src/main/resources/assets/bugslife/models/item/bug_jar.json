@@ -1,0 +1,428 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bugslife:item/bug_jar"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "bugslife:species": 0.01
+      },
+      "model": "bugslife:item/bug_jar_ladybug"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.02
+      },
+      "model": "bugslife:item/bug_jar_aphid"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.03
+      },
+      "model": "bugslife:item/bug_jar_firefly"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.04
+      },
+      "model": "bugslife:item/bug_jar_cricket"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.05
+      },
+      "model": "bugslife:item/bug_jar_pill_bug"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.06
+      },
+      "model": "bugslife:item/bug_jar_water_strider"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.07
+      },
+      "model": "bugslife:item/bug_jar_monarch"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.08
+      },
+      "model": "bugslife:item/bug_jar_silk_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.09
+      },
+      "model": "bugslife:item/bug_jar_dragonfly"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.1
+      },
+      "model": "bugslife:item/bug_jar_dung_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.11
+      },
+      "model": "bugslife:item/bug_jar_cave_weta"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.12
+      },
+      "model": "bugslife:item/bug_jar_walking_stick"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.13
+      },
+      "model": "bugslife:item/bug_jar_jewel_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.14
+      },
+      "model": "bugslife:item/bug_jar_stag_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.15
+      },
+      "model": "bugslife:item/bug_jar_glowworm"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.16
+      },
+      "model": "bugslife:item/bug_jar_hercules_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.17
+      },
+      "model": "bugslife:item/bug_jar_ember_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.18
+      },
+      "model": "bugslife:item/bug_jar_sculk_mite"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.19
+      },
+      "model": "bugslife:item/bug_jar_golden_scarab"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.2
+      },
+      "model": "bugslife:item/bug_jar_void_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.21
+      },
+      "model": "bugslife:item/bug_jar_worker_ant"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.22
+      },
+      "model": "bugslife:item/bug_jar_earwig"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.23
+      },
+      "model": "bugslife:item/bug_jar_termite"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.24
+      },
+      "model": "bugslife:item/bug_jar_millipede"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.25
+      },
+      "model": "bugslife:item/bug_jar_caddisfly_larva"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.26
+      },
+      "model": "bugslife:item/bug_jar_mosquito"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.27
+      },
+      "model": "bugslife:item/bug_jar_mayfly"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.28
+      },
+      "model": "bugslife:item/bug_jar_grasshopper"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.29
+      },
+      "model": "bugslife:item/bug_jar_springtail"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.3
+      },
+      "model": "bugslife:item/bug_jar_whirligig_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.31
+      },
+      "model": "bugslife:item/bug_jar_stink_bug"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.32
+      },
+      "model": "bugslife:item/bug_jar_orb_weaver"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.33
+      },
+      "model": "bugslife:item/bug_jar_tick"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.34
+      },
+      "model": "bugslife:item/bug_jar_centipede"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.35
+      },
+      "model": "bugslife:item/bug_jar_jumping_spider"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.36
+      },
+      "model": "bugslife:item/bug_jar_honeypot_ant"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.37
+      },
+      "model": "bugslife:item/bug_jar_antlion"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.38
+      },
+      "model": "bugslife:item/bug_jar_bookworm"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.39
+      },
+      "model": "bugslife:item/bug_jar_cicada"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.4
+      },
+      "model": "bugslife:item/bug_jar_katydid"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.41
+      },
+      "model": "bugslife:item/bug_jar_hawk_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.42
+      },
+      "model": "bugslife:item/bug_jar_sakura_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.43
+      },
+      "model": "bugslife:item/bug_jar_paper_wasp"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.44
+      },
+      "model": "bugslife:item/bug_jar_locust"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.45
+      },
+      "model": "bugslife:item/bug_jar_praying_mantis"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.46
+      },
+      "model": "bugslife:item/bug_jar_bombardier_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.47
+      },
+      "model": "bugslife:item/bug_jar_diving_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.48
+      },
+      "model": "bugslife:item/bug_jar_mole_cricket"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.49
+      },
+      "model": "bugslife:item/bug_jar_darkling_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.5
+      },
+      "model": "bugslife:item/bug_jar_scorpion"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.51
+      },
+      "model": "bugslife:item/bug_jar_tarantula"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.52
+      },
+      "model": "bugslife:item/bug_jar_ice_crawler"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.53
+      },
+      "model": "bugslife:item/bug_jar_giant_isopod"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.54
+      },
+      "model": "bugslife:item/bug_jar_luna_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.55
+      },
+      "model": "bugslife:item/bug_jar_morpho"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.56
+      },
+      "model": "bugslife:item/bug_jar_owl_butterfly"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.57
+      },
+      "model": "bugslife:item/bug_jar_leaf_insect"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.58
+      },
+      "model": "bugslife:item/bug_jar_click_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.59
+      },
+      "model": "bugslife:item/bug_jar_sea_skater"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.6
+      },
+      "model": "bugslife:item/bug_jar_mushroom_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.61
+      },
+      "model": "bugslife:item/bug_jar_rain_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.62
+      },
+      "model": "bugslife:item/bug_jar_atlas_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.63
+      },
+      "model": "bugslife:item/bug_jar_soul_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.64
+      },
+      "model": "bugslife:item/bug_jar_gust_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.65
+      },
+      "model": "bugslife:item/bug_jar_shulker_mite"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.66
+      },
+      "model": "bugslife:item/bug_jar_chorus_weevil"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.67
+      },
+      "model": "bugslife:item/bug_jar_echo_moth"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.68
+      },
+      "model": "bugslife:item/bug_jar_queen_ant"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.69
+      },
+      "model": "bugslife:item/bug_jar_storm_beetle"
+    },
+    {
+      "predicate": {
+        "bugslife:species": 0.7
+      },
+      "model": "bugslife:item/bug_jar_crystal_beetle"
+    }
+  ]
+}

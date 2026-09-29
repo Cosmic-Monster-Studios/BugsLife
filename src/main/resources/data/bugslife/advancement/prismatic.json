@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:prismarine_crystals"
+    },
+    "title": {
+      "translate": "advancements.bugslife.prismatic.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.prismatic.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "prismatic": true
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

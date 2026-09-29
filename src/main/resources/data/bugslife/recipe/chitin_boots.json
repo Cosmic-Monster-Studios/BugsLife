@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "C C",
+    "C C"
+  ],
+  "key": {
+    "C": {
+      "item": "bugslife:chitin"
+    }
+  },
+  "result": {
+    "id": "bugslife:chitin_boots",
+    "count": 1
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:end_rod"
+    },
+    "title": {
+      "translate": "advancements.bugslife.void_moth.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.void_moth.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "void_moth"
+      }
+    }
+  },
+  "parent": "bugslife:epic_find"
+}

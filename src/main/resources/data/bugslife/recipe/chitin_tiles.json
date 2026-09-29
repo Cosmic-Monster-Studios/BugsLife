@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "BB",
+    "BB"
+  ],
+  "key": {
+    "B": {
+      "item": "bugslife:chitin_block"
+    }
+  },
+  "result": {
+    "id": "bugslife:chitin_tiles",
+    "count": 4
+  }
+}

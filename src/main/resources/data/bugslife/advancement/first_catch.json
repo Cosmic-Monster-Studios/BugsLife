@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:bug_jar"
+    },
+    "title": {
+      "translate": "advancements.bugslife.first_catch.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.first_catch.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "caught": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {}
+    }
+  },
+  "parent": "bugslife:root"
+}

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:clock"
+    },
+    "title": {
+      "translate": "advancements.bugslife.carpe_diem.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.carpe_diem.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "mayfly"
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

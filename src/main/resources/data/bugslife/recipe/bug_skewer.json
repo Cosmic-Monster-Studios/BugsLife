@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "bugslife:roasted_grub"
+    },
+    {
+      "item": "bugslife:roasted_grub"
+    },
+    {
+      "item": "bugslife:roasted_grub"
+    }
+  ],
+  "result": {
+    "id": "bugslife:bug_skewer",
+    "count": 1
+  }
+}

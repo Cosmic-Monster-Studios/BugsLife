@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:nether_star"
+    },
+    "title": {
+      "translate": "advancements.bugslife.legendary_find.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.legendary_find.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "min_rarity": "legendary"
+      }
+    }
+  },
+  "parent": "bugslife:epic_find"
+}

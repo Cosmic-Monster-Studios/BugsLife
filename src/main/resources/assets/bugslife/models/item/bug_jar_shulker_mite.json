@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bugslife:item/bug_jar",
+    "layer1": "bugslife:item/bugs/shulker_mite",
+    "layer2": "bugslife:item/bug_jar_overlay"
+  }
+}

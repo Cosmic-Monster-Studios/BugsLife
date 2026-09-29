@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bugslife:roasted_grub"
+    },
+    {
+      "item": "bugslife:honeydew"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "id": "bugslife:candied_grub",
+    "count": 1
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NNN",
+    "NGN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "G": {
+      "item": "bugslife:glow_goo"
+    }
+  },
+  "result": {
+    "id": "bugslife:firefly_lantern",
+    "count": 1
+  }
+}

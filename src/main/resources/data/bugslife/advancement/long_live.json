@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:royal_jelly"
+    },
+    "title": {
+      "translate": "advancements.bugslife.long_live.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.long_live.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "queen_ant"
+      }
+    }
+  },
+  "parent": "bugslife:legendary_find"
+}

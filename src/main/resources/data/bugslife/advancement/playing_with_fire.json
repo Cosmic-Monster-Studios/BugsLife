@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:magma_block"
+    },
+    "title": {
+      "translate": "advancements.bugslife.playing_with_fire.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.playing_with_fire.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "ember_beetle"
+      }
+    }
+  },
+  "parent": "bugslife:rare_find"
+}

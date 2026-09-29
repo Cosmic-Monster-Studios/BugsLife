@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:sculk_shrieker"
+    },
+    "title": {
+      "translate": "advancements.bugslife.silent_steps.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.silent_steps.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "echo_moth"
+      }
+    }
+  },
+  "parent": "bugslife:epic_find"
+}

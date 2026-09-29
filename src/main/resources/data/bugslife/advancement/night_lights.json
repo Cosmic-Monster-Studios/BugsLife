@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:glow_goo"
+    },
+    "title": {
+      "translate": "advancements.bugslife.night_lights.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.night_lights.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "firefly"
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

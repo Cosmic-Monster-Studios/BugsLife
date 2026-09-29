@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "WGW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wheat"
+    },
+    "G": {
+      "item": "bugslife:crunchy_grub"
+    }
+  },
+  "result": {
+    "id": "bugslife:cricket_cookie",
+    "count": 6
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:gold_block"
+    },
+    "title": {
+      "translate": "advancements.bugslife.golden.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.golden.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "golden_scarab"
+      }
+    }
+  },
+  "parent": "bugslife:epic_find"
+}

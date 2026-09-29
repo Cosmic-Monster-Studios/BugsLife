@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:lantern"
+    },
+    "title": {
+      "translate": "advancements.bugslife.blue_moon.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.blue_moon.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "luna_moth"
+      }
+    }
+  },
+  "parent": "bugslife:rare_find"
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " SS",
+    " CS",
+    "W  "
+  ],
+  "key": {
+    "S": {
+      "item": "bugslife:silk"
+    },
+    "C": {
+      "item": "bugslife:chitin"
+    },
+    "W": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "bugslife:silk_net",
+    "count": 1
+  }
+}

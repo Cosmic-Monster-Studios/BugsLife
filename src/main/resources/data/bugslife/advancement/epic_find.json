@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:echo_shard"
+    },
+    "title": {
+      "translate": "advancements.bugslife.epic_find.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.epic_find.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "min_rarity": "epic"
+      }
+    }
+  },
+  "parent": "bugslife:rare_find"
+}

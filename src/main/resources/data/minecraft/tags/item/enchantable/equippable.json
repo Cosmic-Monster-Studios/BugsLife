@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "bugslife:chitin_helmet",
+    "bugslife:chitin_chestplate",
+    "bugslife:chitin_leggings",
+    "bugslife:chitin_boots"
+  ]
+}

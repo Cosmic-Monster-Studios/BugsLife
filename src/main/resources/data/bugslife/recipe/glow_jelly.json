@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "bugslife:glow_goo"
+    },
+    {
+      "item": "bugslife:honeydew"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "id": "bugslife:glow_jelly",
+    "count": 1
+  }
+}

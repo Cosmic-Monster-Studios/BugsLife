@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:chitin_chestplate"
+    },
+    "title": {
+      "translate": "advancements.bugslife.exoskeleton.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.exoskeleton.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bugslife:chitin_helmet"
+          },
+          {
+            "items": "bugslife:chitin_chestplate"
+          },
+          {
+            "items": "bugslife:chitin_leggings"
+          },
+          {
+            "items": "bugslife:chitin_boots"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

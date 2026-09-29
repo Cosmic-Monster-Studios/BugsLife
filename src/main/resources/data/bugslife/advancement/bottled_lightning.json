@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:lightning_rod"
+    },
+    "title": {
+      "translate": "advancements.bugslife.bottled_lightning.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.bottled_lightning.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "storm_beetle"
+      }
+    }
+  },
+  "parent": "bugslife:legendary_find"
+}

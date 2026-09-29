@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "ingredient": {
+    "item": "bugslife:crunchy_grub"
+  },
+  "result": {
+    "id": "bugslife:roasted_grub"
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:amethyst_cluster"
+    },
+    "title": {
+      "translate": "advancements.bugslife.geode.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.geode.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "crystal_beetle"
+      }
+    }
+  },
+  "parent": "bugslife:legendary_find"
+}

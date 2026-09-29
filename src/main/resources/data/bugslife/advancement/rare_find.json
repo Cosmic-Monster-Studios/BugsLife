@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:amethyst_shard"
+    },
+    "title": {
+      "translate": "advancements.bugslife.rare_find.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.rare_find.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "min_rarity": "rare"
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

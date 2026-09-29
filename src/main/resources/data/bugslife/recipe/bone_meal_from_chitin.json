@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bugslife:chitin"
+    }
+  ],
+  "result": {
+    "id": "minecraft:bone_meal",
+    "count": 3
+  }
+}

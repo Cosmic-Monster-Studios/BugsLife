@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:firefly_lantern"
+    },
+    "title": {
+      "translate": "advancements.bugslife.lantern.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.lantern.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bugslife:firefly_lantern"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "bugslife:night_lights"
+}

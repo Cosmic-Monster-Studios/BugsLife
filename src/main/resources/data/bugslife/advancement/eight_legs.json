@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:roasted_grub"
+    },
+    "title": {
+      "translate": "advancements.bugslife.eight_legs.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.eight_legs.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:bug_action",
+      "conditions": {
+        "action": "tame_tarantula"
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bugslife:glow_goo"
+    },
+    {
+      "item": "bugslife:glow_goo"
+    }
+  ],
+  "result": {
+    "id": "minecraft:glowstone_dust",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "bugslife:chitin_block"
+  },
+  "result": {
+    "id": "bugslife:chitin_tile_slab",
+    "count": 2
+  }
+}

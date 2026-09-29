@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " C ",
+    "CGC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "bugslife:chitin"
+    },
+    "G": {
+      "item": "bugslife:glow_goo"
+    }
+  },
+  "result": {
+    "id": "bugslife:shell_lamp",
+    "count": 1
+  }
+}

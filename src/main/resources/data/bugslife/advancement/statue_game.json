@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:stick"
+    },
+    "title": {
+      "translate": "advancements.bugslife.statue_game.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.statue_game.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "walking_stick"
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

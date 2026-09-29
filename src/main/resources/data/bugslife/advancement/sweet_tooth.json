@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:honey_bottle"
+    },
+    "title": {
+      "translate": "advancements.bugslife.sweet_tooth.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.sweet_tooth.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "bugslife:bug_action",
+      "conditions": {
+        "action": "milk_honeypot"
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

@@ -1,0 +1,51 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:bug_net"
+    },
+    "title": {
+      "translate": "advancements.bugslife.root.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/block/moss_block.png"
+  },
+  "criteria": {
+    "net": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bugslife:bug_net"
+          }
+        ]
+      }
+    },
+    "guide": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bugslife:field_guide"
+          }
+        ]
+      }
+    },
+    "caught": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {}
+    }
+  },
+  "requirements": [
+    [
+      "net",
+      "guide",
+      "caught"
+    ]
+  ]
+}

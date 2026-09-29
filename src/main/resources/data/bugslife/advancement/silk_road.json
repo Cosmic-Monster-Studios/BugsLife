@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:silk_net"
+    },
+    "title": {
+      "translate": "advancements.bugslife.silk_road.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.silk_road.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "bugslife:silk_net"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "bugslife:first_catch"
+}

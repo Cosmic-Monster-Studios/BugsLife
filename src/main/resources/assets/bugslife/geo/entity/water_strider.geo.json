@@ -1,0 +1,105 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.water_strider",
+				"texture_width": 32,
+				"texture_height": 16,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 1.5,
+				"visible_bounds_offset": [0, 0.25, 0]
+			},
+			"bones": [
+				{
+					"name": "body",
+					"pivot": [0, 2, 0],
+					"cubes": [
+						{"origin": [-1, 1.5, -3], "size": [2, 1, 4], "uv": [12, 0]},
+						{"origin": [-0.5, 1.5, 1], "size": [1, 1, 5], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "head",
+					"parent": "body",
+					"pivot": [0, 2, -3],
+					"cubes": [
+						{"origin": [-1, 1.5, -5], "size": [2, 1, 2], "uv": [6, 6]}
+					]
+				},
+				{
+					"name": "antenna_l",
+					"parent": "head",
+					"pivot": [-0.5, 2, -5],
+					"rotation": [-10, -20, 0],
+					"cubes": [
+						{"origin": [-0.5, 2, -8], "size": [0, 1, 3], "uv": [24, 0]}
+					]
+				},
+				{
+					"name": "antenna_r",
+					"parent": "head",
+					"pivot": [0.5, 2, -5],
+					"rotation": [-10, 20, 0],
+					"cubes": [
+						{"origin": [0.5, 2, -8], "size": [0, 1, 3], "uv": [0, 6]}
+					]
+				},
+				{
+					"name": "front_l",
+					"parent": "body",
+					"pivot": [-1, 2, -2.5],
+					"rotation": [0, -50, -10],
+					"cubes": [
+						{"origin": [-4, 1.5, -2.5], "size": [3, 0, 1], "uv": [20, 13]}
+					]
+				},
+				{
+					"name": "front_r",
+					"parent": "body",
+					"pivot": [1, 2, -2.5],
+					"rotation": [0, 50, 10],
+					"cubes": [
+						{"origin": [1, 1.5, -2.5], "size": [3, 0, 1], "uv": [0, 14]}
+					]
+				},
+				{
+					"name": "mid_l",
+					"parent": "body",
+					"pivot": [-1, 2, -1],
+					"rotation": [0, -15, 8],
+					"cubes": [
+						{"origin": [-11, 1.5, -1], "size": [10, 0, 1], "uv": [0, 10]}
+					]
+				},
+				{
+					"name": "mid_r",
+					"parent": "body",
+					"pivot": [1, 2, -1],
+					"rotation": [0, 15, -8],
+					"cubes": [
+						{"origin": [1, 1.5, -1], "size": [10, 0, 1], "uv": [0, 11]}
+					]
+				},
+				{
+					"name": "back_l",
+					"parent": "body",
+					"pivot": [-1, 2, 0],
+					"rotation": [0, 40, 8],
+					"cubes": [
+						{"origin": [-10, 1.5, 0], "size": [9, 0, 1], "uv": [0, 12]}
+					]
+				},
+				{
+					"name": "back_r",
+					"parent": "body",
+					"pivot": [1, 2, 0],
+					"rotation": [0, -40, -8],
+					"cubes": [
+						{"origin": [1, 1.5, 0], "size": [9, 0, 1], "uv": [0, 13]}
+					]
+				}
+			]
+		}
+	]
+}

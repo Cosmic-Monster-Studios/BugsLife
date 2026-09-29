@@ -1,0 +1,652 @@
+{
+  "display": {
+    "icon": {
+      "id": "bugslife:silk_net"
+    },
+    "title": {
+      "translate": "advancements.bugslife.entomologist.title"
+    },
+    "description": {
+      "translate": "advancements.bugslife.entomologist.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ladybug": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "ladybug"
+      }
+    },
+    "aphid": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "aphid"
+      }
+    },
+    "firefly": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "firefly"
+      }
+    },
+    "cricket": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "cricket"
+      }
+    },
+    "pill_bug": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "pill_bug"
+      }
+    },
+    "water_strider": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "water_strider"
+      }
+    },
+    "monarch": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "monarch"
+      }
+    },
+    "silk_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "silk_moth"
+      }
+    },
+    "dragonfly": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "dragonfly"
+      }
+    },
+    "dung_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "dung_beetle"
+      }
+    },
+    "cave_weta": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "cave_weta"
+      }
+    },
+    "walking_stick": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "walking_stick"
+      }
+    },
+    "jewel_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "jewel_beetle"
+      }
+    },
+    "stag_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "stag_beetle"
+      }
+    },
+    "glowworm": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "glowworm"
+      }
+    },
+    "hercules_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "hercules_beetle"
+      }
+    },
+    "ember_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "ember_beetle"
+      }
+    },
+    "sculk_mite": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "sculk_mite"
+      }
+    },
+    "golden_scarab": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "golden_scarab"
+      }
+    },
+    "void_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "void_moth"
+      }
+    },
+    "worker_ant": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "worker_ant"
+      }
+    },
+    "earwig": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "earwig"
+      }
+    },
+    "termite": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "termite"
+      }
+    },
+    "millipede": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "millipede"
+      }
+    },
+    "caddisfly_larva": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "caddisfly_larva"
+      }
+    },
+    "mosquito": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "mosquito"
+      }
+    },
+    "mayfly": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "mayfly"
+      }
+    },
+    "grasshopper": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "grasshopper"
+      }
+    },
+    "springtail": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "springtail"
+      }
+    },
+    "whirligig_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "whirligig_beetle"
+      }
+    },
+    "stink_bug": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "stink_bug"
+      }
+    },
+    "orb_weaver": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "orb_weaver"
+      }
+    },
+    "tick": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "tick"
+      }
+    },
+    "centipede": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "centipede"
+      }
+    },
+    "jumping_spider": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "jumping_spider"
+      }
+    },
+    "honeypot_ant": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "honeypot_ant"
+      }
+    },
+    "antlion": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "antlion"
+      }
+    },
+    "bookworm": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "bookworm"
+      }
+    },
+    "cicada": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "cicada"
+      }
+    },
+    "katydid": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "katydid"
+      }
+    },
+    "hawk_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "hawk_moth"
+      }
+    },
+    "sakura_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "sakura_moth"
+      }
+    },
+    "paper_wasp": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "paper_wasp"
+      }
+    },
+    "locust": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "locust"
+      }
+    },
+    "praying_mantis": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "praying_mantis"
+      }
+    },
+    "bombardier_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "bombardier_beetle"
+      }
+    },
+    "diving_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "diving_beetle"
+      }
+    },
+    "mole_cricket": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "mole_cricket"
+      }
+    },
+    "darkling_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "darkling_beetle"
+      }
+    },
+    "scorpion": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "scorpion"
+      }
+    },
+    "tarantula": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "tarantula"
+      }
+    },
+    "ice_crawler": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "ice_crawler"
+      }
+    },
+    "giant_isopod": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "giant_isopod"
+      }
+    },
+    "luna_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "luna_moth"
+      }
+    },
+    "morpho": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "morpho"
+      }
+    },
+    "owl_butterfly": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "owl_butterfly"
+      }
+    },
+    "leaf_insect": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "leaf_insect"
+      }
+    },
+    "click_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "click_beetle"
+      }
+    },
+    "sea_skater": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "sea_skater"
+      }
+    },
+    "mushroom_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "mushroom_beetle"
+      }
+    },
+    "rain_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "rain_beetle"
+      }
+    },
+    "atlas_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "atlas_moth"
+      }
+    },
+    "soul_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "soul_moth"
+      }
+    },
+    "gust_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "gust_moth"
+      }
+    },
+    "shulker_mite": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "shulker_mite"
+      }
+    },
+    "chorus_weevil": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "chorus_weevil"
+      }
+    },
+    "echo_moth": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "echo_moth"
+      }
+    },
+    "queen_ant": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "queen_ant"
+      }
+    },
+    "storm_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "storm_beetle"
+      }
+    },
+    "crystal_beetle": {
+      "trigger": "bugslife:catch_bug",
+      "conditions": {
+        "species": "crystal_beetle"
+      }
+    }
+  },
+  "parent": "bugslife:master_naturalist",
+  "requirements": [
+    [
+      "ladybug"
+    ],
+    [
+      "aphid"
+    ],
+    [
+      "firefly"
+    ],
+    [
+      "cricket"
+    ],
+    [
+      "pill_bug"
+    ],
+    [
+      "water_strider"
+    ],
+    [
+      "monarch"
+    ],
+    [
+      "silk_moth"
+    ],
+    [
+      "dragonfly"
+    ],
+    [
+      "dung_beetle"
+    ],
+    [
+      "cave_weta"
+    ],
+    [
+      "walking_stick"
+    ],
+    [
+      "jewel_beetle"
+    ],
+    [
+      "stag_beetle"
+    ],
+    [
+      "glowworm"
+    ],
+    [
+      "hercules_beetle"
+    ],
+    [
+      "ember_beetle"
+    ],
+    [
+      "sculk_mite"
+    ],
+    [
+      "golden_scarab"
+    ],
+    [
+      "void_moth"
+    ],
+    [
+      "worker_ant"
+    ],
+    [
+      "earwig"
+    ],
+    [
+      "termite"
+    ],
+    [
+      "millipede"
+    ],
+    [
+      "caddisfly_larva"
+    ],
+    [
+      "mosquito"
+    ],
+    [
+      "mayfly"
+    ],
+    [
+      "grasshopper"
+    ],
+    [
+      "springtail"
+    ],
+    [
+      "whirligig_beetle"
+    ],
+    [
+      "stink_bug"
+    ],
+    [
+      "orb_weaver"
+    ],
+    [
+      "tick"
+    ],
+    [
+      "centipede"
+    ],
+    [
+      "jumping_spider"
+    ],
+    [
+      "honeypot_ant"
+    ],
+    [
+      "antlion"
+    ],
+    [
+      "bookworm"
+    ],
+    [
+      "cicada"
+    ],
+    [
+      "katydid"
+    ],
+    [
+      "hawk_moth"
+    ],
+    [
+      "sakura_moth"
+    ],
+    [
+      "paper_wasp"
+    ],
+    [
+      "locust"
+    ],
+    [
+      "praying_mantis"
+    ],
+    [
+      "bombardier_beetle"
+    ],
+    [
+      "diving_beetle"
+    ],
+    [
+      "mole_cricket"
+    ],
+    [
+      "darkling_beetle"
+    ],
+    [
+      "scorpion"
+    ],
+    [
+      "tarantula"
+    ],
+    [
+      "ice_crawler"
+    ],
+    [
+      "giant_isopod"
+    ],
+    [
+      "luna_moth"
+    ],
+    [
+      "morpho"
+    ],
+    [
+      "owl_butterfly"
+    ],
+    [
+      "leaf_insect"
+    ],
+    [
+      "click_beetle"
+    ],
+    [
+      "sea_skater"
+    ],
+    [
+      "mushroom_beetle"
+    ],
+    [
+      "rain_beetle"
+    ],
+    [
+      "atlas_moth"
+    ],
+    [
+      "soul_moth"
+    ],
+    [
+      "gust_moth"
+    ],
+    [
+      "shulker_mite"
+    ],
+    [
+      "chorus_weevil"
+    ],
+    [
+      "echo_moth"
+    ],
+    [
+      "queen_ant"
+    ],
+    [
+      "storm_beetle"
+    ],
+    [
+      "crystal_beetle"
+    ]
+  ]
+}
