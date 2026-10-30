@@ -54,6 +54,12 @@ public final class Habitats {
     /** Drops from origin to the first air block that sits on a solid floor, within maxDown blocks. */
     @Nullable
     static BlockPos floor(ServerLevel level, BlockPos origin, int maxDown) {
+        return floor(level, origin, maxDown, s -> false);
+    }
+
+    /** As {@link #floor(ServerLevel, BlockPos, int)}, but a thin cover block (carpet, vein) accepted by cover may sit on the floor. */
+    @Nullable
+    static BlockPos floor(ServerLevel level, BlockPos origin, int maxDown, Predicate<BlockState> cover) {
         BlockPos.MutableBlockPos pos = origin.mutable();
         if (!level.getBlockState(pos).isAir()) {
             return null;
@@ -61,6 +67,10 @@ public final class Habitats {
         for (int i = 0; i < maxDown; i++) {
             BlockState below = level.getBlockState(pos.below());
             if (!below.isAir()) {
+                if (cover.test(below)) {
+                    BlockPos under = pos.below(2);
+                    return level.getBlockState(under).isFaceSturdy(level, under, Direction.UP) ? pos.immutable() : null;
+                }
                 return below.isFaceSturdy(level, pos.below(), Direction.UP) ? pos.immutable() : null;
             }
             pos.move(Direction.DOWN);
@@ -176,11 +186,11 @@ public final class Habitats {
     /** Damp, dim places: moss, podzol, mud, and the shallow caves. */
     public static BlockPos pillBug(ServerLevel level, BlockPos origin, RandomSource random) {
         if (!overworld(level)) return null;
-        BlockPos pos = floor(level, origin, 12);
+        BlockPos pos = floor(level, origin, 12, s -> s.is(Blocks.MOSS_CARPET));
         if (pos == null) return null;
         Block floor = level.getBlockState(pos.below()).getBlock();
         if (PILL_BUG_FLOORS.contains(floor)) return pos;
-        if (level.getBlockState(pos).is(Blocks.MOSS_CARPET)) return pos;
+        if (level.getBlockState(pos.below()).is(Blocks.MOSS_CARPET)) return pos;
         // shaded forest floor, under the canopy
         if (level.getBlockState(pos.below()).is(BlockTags.DIRT) && !level.canSeeSky(pos) && pos.getY() > 50 && random.nextInt(3) == 0) return pos;
         if (pos.getY() > 20 && CAVE_FLOORS.contains(floor) && dark(level, pos, 7) && random.nextInt(3) == 0) return pos;
@@ -297,10 +307,10 @@ public final class Habitats {
     /** Creeping over sculk in the Deep Dark. Sneak, or it will sense you. */
     public static BlockPos sculkMite(ServerLevel level, BlockPos origin, RandomSource random) {
         if (!overworld(level) || origin.getY() > 0) return null;
-        BlockPos pos = floor(level, origin, 10);
+        BlockPos pos = floor(level, origin, 10, s -> s.is(Blocks.SCULK_VEIN));
         if (pos == null) return null;
         BlockState below = level.getBlockState(pos.below());
-        return below.is(Blocks.SCULK) || below.is(Blocks.SCULK_CATALYST) || level.getBlockState(pos).is(Blocks.SCULK_VEIN) ? pos : null;
+        return below.is(Blocks.SCULK) || below.is(Blocks.SCULK_CATALYST) || below.is(Blocks.SCULK_VEIN) ? pos : null;
     }
 
     // ------------------------------------------------------------------ legendary

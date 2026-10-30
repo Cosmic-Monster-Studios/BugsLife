@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.texture.AutoGlowingTexture;
 import software.bernie.geckolib.renderer.GeoRenderer;
@@ -22,8 +23,15 @@ public class BugGlowLayer extends GeoRenderLayer<BugEntity> {
                        VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         if (bug.isInvisible()) return;
         float strength = bug.glowStrength(partialTick);
-        if (strength <= 0f) return;
-        RenderType glow = AutoGlowingTexture.getRenderType(getTextureResource(bug));
+        ResourceLocation tex = getTextureResource(bug);
+        if (strength <= 0f) {
+            // the glowmask pixels are already cut out of the base texture, so draw them normally lit instead of leaving holes
+            RenderType lit = RenderType.entityCutoutNoCull(AutoGlowingTexture.getEmissiveResource(tex));
+            getRenderer().reRender(bakedModel, poseStack, bufferSource, bug, lit, bufferSource.getBuffer(lit), partialTick,
+                    packedLight, packedOverlay, getRenderer().getRenderColor(bug, partialTick, packedLight).argbInt());
+            return;
+        }
+        RenderType glow = AutoGlowingTexture.getRenderType(tex);
         // GeckoLib cuts the glowing pixels out of the base texture, so this layer is the only thing drawing them:
         // dim it by darkening rather than fading, and never below a floor, or the lantern would vanish by day
         float light = 0.35f + 0.65f * Math.min(1f, strength);

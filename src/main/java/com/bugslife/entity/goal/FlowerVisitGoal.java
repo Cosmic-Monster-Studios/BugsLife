@@ -109,9 +109,10 @@ public class FlowerVisitGoal extends Goal {
     }
 
     private void pollinate() {
-        if (!(bug.level() instanceof ServerLevel level)) return;
+        if (!(bug.level() instanceof ServerLevel level) || !com.bugslife.entity.SpecialBehaviors.canGrief(bug)) return;
         BlockState state = level.getBlockState(flower);
-        if (!(state.getBlock() instanceof FlowerBlock)) return;
+        // wither roses would spread their withering to the whole meadow
+        if (!(state.getBlock() instanceof FlowerBlock) || state.is(Blocks.WITHER_ROSE)) return;
         int nearby = 0;
         for (BlockPos p : BlockPos.betweenClosed(flower.offset(-4, -2, -4), flower.offset(4, 2, 4))) {
             if (level.getBlockState(p).is(BlockTags.FLOWERS)) nearby++;

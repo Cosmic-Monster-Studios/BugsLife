@@ -28,16 +28,22 @@ public class FollowOwnerGoal extends Goal {
         return owner != null && !owner.isSpectator() && pet.distanceToSqr(owner) > 16;
     }
 
+    /** The owner can log out, die or change dimension between goal updates. */
+    private boolean ownerValid() {
+        return owner != null && owner.isAlive() && !owner.isRemoved() && !owner.isSpectator() && owner.level() == pet.level();
+    }
+
     @Override
     public boolean canContinueToUse() {
-        return owner != null && !pet.sitting && pet.distanceToSqr(owner) > 5;
+        return ownerValid() && !pet.sitting && pet.distanceToSqr(owner) > 5;
     }
 
     @Override
     public void tick() {
+        if (!ownerValid()) return;
         pet.getLookControl().setLookAt(owner, 10f, pet.getMaxHeadXRot());
-        if (pet.distanceToSqr(owner) > 400) {
-            pet.moveTo(owner.getX(), owner.getY(), owner.getZ(), pet.getYRot(), pet.getXRot());
+        if (pet.distanceToSqr(owner) > 400
+                && pet.randomTeleport(owner.getX(), owner.getY(), owner.getZ(), false)) {
             pet.getNavigation().stop();
         } else if (pet.tickCount % 10 == 0) {
             pet.getNavigation().moveTo(owner, 1.3);

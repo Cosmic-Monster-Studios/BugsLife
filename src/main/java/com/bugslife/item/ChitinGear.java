@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -69,6 +70,8 @@ public final class ChitinGear {
     public static void onBlock(LivingShieldBlockEvent event) {
         LivingEntity blocker = event.getEntity();
         if (!event.getBlocked() || !blocker.getUseItem().is(ModItems.CHITIN_SHIELD.get())) return;
+        // a reflection is never reflected again, or two chitin shields would ping-pong forever
+        if (event.getDamageSource().is(DamageTypes.THORNS)) return;
         if (!(event.getDamageSource().getDirectEntity() instanceof LivingEntity attacker) || attacker.distanceToSqr(blocker) > 25) return;
         boolean bug = attacker instanceof BugEntity;
         attacker.hurt(blocker.damageSources().thorns(blocker), bug ? 4.0f : 2.0f);

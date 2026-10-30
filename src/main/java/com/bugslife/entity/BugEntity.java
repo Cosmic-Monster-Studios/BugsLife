@@ -9,6 +9,7 @@ import com.bugslife.entity.goal.BugPanicGoal;
 import com.bugslife.entity.goal.ClingGoal;
 import com.bugslife.entity.goal.FlowerVisitGoal;
 import com.bugslife.entity.goal.FollowLivestockGoal;
+import com.bugslife.entity.goal.HangingBreedGoal;
 import com.bugslife.entity.goal.HuntAphidGoal;
 import com.bugslife.entity.goal.LightOrbitGoal;
 import com.bugslife.entity.goal.RestGoal;
@@ -356,6 +357,7 @@ public class BugEntity extends Animal implements GeoEntity {
         BugSpecies s = species();
         Movement m = s.movement();
         if (m == Movement.HANG) {
+            this.goalSelector.addGoal(2, new HangingBreedGoal(this));
             this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0f));
             return;
         }
@@ -364,7 +366,7 @@ public class BugEntity extends Animal implements GeoEntity {
         }
         this.goalSelector.addGoal(1, new BugPanicGoal(this, 1.6));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1, stack -> species().food().test(stack), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1, this::isFood, false));
 
         switch (s) {
             case LADYBUG -> this.goalSelector.addGoal(4, new HuntAphidGoal(this));
@@ -538,6 +540,9 @@ public class BugEntity extends Animal implements GeoEntity {
         BlockPos above = BlockPos.containing(getX(), getBoundingBox().maxY + 0.05, getZ());
         boolean attached = level().getBlockState(above).isFaceSturdy(level(), above, Direction.DOWN);
         if (attached) {
+            // Keep the body below the same ceiling as a baby grows into its adult dimensions.
+            double hangingY = above.getY() - getBbHeight() - 0.01;
+            if (Math.abs(getY() - hangingY) > 1.0E-6) setPos(getX(), hangingY, getZ());
             setNoGravity(true);
             setDeltaMovement(Vec3.ZERO);
         } else {
@@ -557,6 +562,10 @@ public class BugEntity extends Animal implements GeoEntity {
             if (!state.isAir()) {
                 if (state.isFaceSturdy(level(), up, Direction.DOWN)) {
                     moveTo(getX(), up.getY() - getBbHeight() - 0.01, getZ(), getYRot(), 0);
+                    // Teleporting does not clear falling velocity; it would detach us on the next tick.
+                    setDeltaMovement(Vec3.ZERO);
+                    fallDistance = 0;
+                    hasImpulse = true;
                     setNoGravity(true);
                 }
                 return;
@@ -779,6 +788,12 @@ public class BugEntity extends Animal implements GeoEntity {
         return species().canEat() && species().food().test(stack);
     }
 
+    /** Bugs share one Animal class, so without this any two species in love would pair up. */
+    @Override
+    public boolean canMate(Animal other) {
+        return other instanceof BugEntity b && b.species() == species() && super.canMate(other);
+    }
+
     @Override
     public net.minecraft.world.InteractionResult mobInteract(Player player, net.minecraft.world.InteractionHand hand) {
         net.minecraft.world.InteractionResult special = SpecialBehaviors.interact(this, player, hand);
@@ -804,6 +819,15 @@ public class BugEntity extends Animal implements GeoEntity {
             child.fromJar = true;
         }
         return child;
+    }
+
+    /** The vanilla breeding path positions the child before this hook; keep hanging offspring on the ceiling. */
+    @Override
+    public void finalizeSpawnChildFromBreeding(ServerLevel level, Animal partner, @Nullable AgeableMob child) {
+        if (child instanceof BugEntity bug && bug.species().movement() == Movement.HANG) {
+            bug.attachToCeiling();
+        }
+        super.finalizeSpawnChildFromBreeding(level, partner, child);
     }
 
     @Override
@@ -837,15 +861,19 @@ public class BugEntity extends Animal implements GeoEntity {
     }
 
     public BugData toData() {
-        return new BugData(species(), isPrismatic(), isBaby());
+        return new BugData(species(), isPrismatic(), isBaby(), java.util.Optional.ofNullable(owner), getAge());
     }
 
     public static BugEntity fromData(Level level, BugData data) {
         BugEntity bug = ModEntities.get(data.species()).get().create(level);
         if (bug != null) {
             bug.setPrismatic(data.prismatic());
-            if (data.baby()) bug.setAge(-6000);
+            // keeps growth and breeding cooldown across the jar; old jars only know whether it was a baby
+            bug.setAge(data.age() != 0 ? data.age() : (data.baby() ? -6000 : 0));
             bug.fromJar = true;
+            data.owner().ifPresent(u -> bug.owner = u);
+            // a released honeypot ant has to refill before it can be milked again
+            if (data.species() == BugSpecies.HONEYPOT_ANT) bug.specialCooldown = 2400;
         }
         return bug;
     }
@@ -861,6 +889,13 @@ public class BugEntity extends Animal implements GeoEntity {
         tag.putInt("ProduceTimer", produceTimer);
         if (owner != null) tag.putUUID("Owner", owner);
         tag.putBoolean("Sitting", sitting);
+        tag.putInt("SpecialCooldown", specialCooldown);
+        Direction cling = getClingFace();
+        if (cling != null) {
+            tag.putByte("ClingFace", (byte) cling.get3DDataValue());
+            tag.putInt("ClingTicks", clingTicks);
+            tag.putDouble("ClimbTargetY", climbTargetY);
+        }
     }
 
     @Override
@@ -872,6 +907,15 @@ public class BugEntity extends Animal implements GeoEntity {
         if (tag.contains("ProduceTimer")) produceTimer = tag.getInt("ProduceTimer");
         owner = tag.hasUUID("Owner") ? tag.getUUID("Owner") : null;
         sitting = tag.getBoolean("Sitting");
+        specialCooldown = tag.getInt("SpecialCooldown");
+        if (tag.contains("ClingFace")) {
+            entityData.set(DATA_CLING, tag.getByte("ClingFace"));
+            clingTicks = tag.getInt("ClingTicks");
+            climbTargetY = tag.getDouble("ClimbTargetY");
+        } else if (species().movement() == Movement.CLIMB) {
+            // NoGravity is saved but the cling was not (older saves): don't leave the bug floating
+            setNoGravity(false);
+        }
     }
 
     // ------------------------------------------------------------------ sounds

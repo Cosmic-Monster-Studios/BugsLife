@@ -201,6 +201,8 @@ def loot():
 
 # ---------------------------------------------------------------- recipes
 def ing(x):
+    if isinstance(x, dict):
+        return x
     return {"tag": x[1:]} if x.startswith("#") else {"item": x}
 
 
@@ -223,7 +225,9 @@ def recipes():
     shaped("bug_net", [" SS", " WS", "W  "], {"S": "minecraft:string", "W": "minecraft:stick"}, f"{M}:bug_net", cat="equipment")
     shaped("silk_net", [" SS", " CS", "W  "], {"S": f"{M}:silk", "C": f"{M}:chitin", "W": "minecraft:stick"}, f"{M}:silk_net", cat="equipment")
     shaped("bug_jar", [" P ", "G G", "GGG"], {"P": "#minecraft:planks", "G": "#c:glass_blocks/colorless"}, f"{M}:bug_jar", 4)
-    shaped("terrarium", ["GGG", "GJG", "PDP"], {"G": "#c:glass_blocks/colorless", "J": f"{M}:bug_jar", "P": "#minecraft:planks",
+    # strict + no components: only an empty jar fits, so a jarred bug is never crafted away
+    empty_jar = {"type": "neoforge:components", "items": f"{M}:bug_jar", "components": {}, "strict": True}
+    shaped("terrarium", ["GGG", "GJG", "PDP"], {"G": "#c:glass_blocks/colorless", "J": empty_jar, "P": "#minecraft:planks",
                                                 "D": "#minecraft:dirt"}, f"{M}:terrarium")
     shaped("firefly_lantern", ["NNN", "NGN", "NNN"], {"N": "minecraft:iron_nugget", "G": f"{M}:glow_goo"}, f"{M}:firefly_lantern")
     shapeless("field_guide", ["minecraft:book", "minecraft:string"], f"{M}:field_guide")
@@ -238,6 +242,39 @@ def recipes():
     cooking("roasted_grub", "smelting", f"{M}:crunchy_grub", f"{M}:roasted_grub", 0.35, 200)
     cooking("roasted_grub_smoking", "smoking", f"{M}:crunchy_grub", f"{M}:roasted_grub", 0.35, 100)
     cooking("roasted_grub_campfire", "campfire_cooking", f"{M}:crunchy_grub", f"{M}:roasted_grub", 0.35, 600)
+
+
+# ---------------------------------------------------------------- recipe book unlocks
+def recipe_unlocks():
+    """Generate recipe-book discovery without rewriting recipes or unrelated assets."""
+    from pathlib import Path
+    for path in sorted(Path(D, "recipe").glob("*.json")):
+        recipe = json.loads(path.read_text(encoding="utf-8"))
+        ingredients = list(recipe.get("key", {}).values()) or recipe.get("ingredients") or [recipe.get("ingredient")]
+        predicates = []
+        for ingredient in ingredients:
+            choices = ingredient if isinstance(ingredient, list) else [ingredient]
+            for choice in choices:
+                if not isinstance(choice, dict):
+                    raise ValueError(f"Unsupported ingredient in {path.name}")
+                value = choice.get("item") or choice.get("items")
+                if "tag" in choice:
+                    value = "#" + choice["tag"]
+                if not isinstance(value, str):
+                    raise ValueError(f"Unsupported ingredient selector in {path.name}")
+                if value not in predicates:
+                    predicates.append(value)
+        recipe_id = f"{M}:{path.stem}"
+        criteria = {"has_the_recipe": {"trigger": "minecraft:recipe_unlocked", "conditions": {"recipe": recipe_id}}}
+        for index, value in enumerate(predicates):
+            criteria[f"has_ingredient_{index}"] = {"trigger": "minecraft:inventory_changed",
+                "conditions": {"items": [{"items": value}]}}
+        category = recipe.get("category", "misc")
+        if category not in {"misc", "building", "equipment", "food", "redstone"}:
+            raise ValueError(f"Unsupported recipe category in {path.name}")
+        write(f"{D}/advancement/recipes/{category}/{path.stem}.json", {
+            "parent": "minecraft:recipes/root", "criteria": criteria,
+            "requirements": [list(criteria)], "rewards": {"recipes": [recipe_id]}})
 
 
 # ---------------------------------------------------------------- advancements
@@ -339,8 +376,9 @@ def advancements():
     adv("acquired_taste", "root", f"{M}:crunchy_grub", ti, de,
         {"raw": eat(f"{M}:crunchy_grub"), "roasted": eat(f"{M}:roasted_grub")}, requirements=[["raw", "roasted"]])
     ti, de = t("exoskeleton", "Exoskeleton", "Wear a full set of chitin armour - no bug can touch you now")
-    adv("exoskeleton", "first_catch", f"{M}:chitin_chestplate", ti, de, {"c": {"trigger": "minecraft:inventory_changed", "conditions": {
-        "items": [{"items": f"{M}:chitin_helmet"}, {"items": f"{M}:chitin_chestplate"}, {"items": f"{M}:chitin_leggings"}, {"items": f"{M}:chitin_boots"}]}}},
+    adv("exoskeleton", "first_catch", f"{M}:chitin_chestplate", ti, de, {"c": {"trigger": "minecraft:inventory_changed", "conditions": {"player": {"equipment": {
+        "head": {"items": f"{M}:chitin_helmet"}, "chest": {"items": f"{M}:chitin_chestplate"},
+        "legs": {"items": f"{M}:chitin_leggings"}, "feet": {"items": f"{M}:chitin_boots"}}}}}},
         frame="goal")
     ti, de = t("shell_shock", "Shell Shock", "Block a blow with a chitin shield and throw it back")
     adv("shell_shock", "exoskeleton", f"{M}:chitin_shield", ti, de, {"c": action("shield_reflect")})
@@ -548,6 +586,7 @@ def lang():
         "block.bugslife.shell_lamp": "Shell Lamp",
         "item.bugslife.royal_jelly": "Royal Jelly",
         "bugslife.msg.underground": "It's underground - wait for it to surface.",
+        "bugslife.msg.not_your_pet": "This pet belongs to someone else.",
         "bugslife.msg.honeypot_empty": "The honeypot ant is still refilling.",
         "bugslife.msg.tarantula_sit": "Your tarantula settles down to wait.",
         "bugslife.msg.tarantula_follow": "Your tarantula scuttles after you.",
@@ -578,6 +617,7 @@ def lang():
         "bugslife.msg.no_room": "There's no room in here for a new bug.",
         "bugslife.msg.courting": "courting (%s)",
         "bugslife.msg.next_harvest": "next harvest in %s",
+        "bugslife.msg.needs_cold": "needs ice or snow beside the terrarium",
         "bugslife.msg.prismatic_hatch": "✦ A prismatic %s hatched in your terrarium! ✦",
         "gui.bugslife.field_guide": "Field Guide",
         "gui.bugslife.discovered": "%s/%s found",
@@ -597,11 +637,20 @@ def lang():
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--recipe-unlocks-only", action="store_true", help="only regenerate recipe discovery advancements from current recipe JSON")
+    args = parser.parse_args()
+    if args.recipe_unlocks_only:
+        recipe_unlocks()
+        print("recipe unlock advancements generated")
+        raise SystemExit(0)
     item_models()
     block_models()
     chitin()
     loot()
     recipes()
+    recipe_unlocks()
     advancements()
     tags()
     lang()

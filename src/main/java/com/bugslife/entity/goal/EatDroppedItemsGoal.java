@@ -43,7 +43,7 @@ public class EatDroppedItemsGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return target != null && target.isAlive() && !bug.isStartled();
+        return target != null && target.isAlive() && !target.getItem().isEmpty() && !bug.isStartled();
     }
 
     @Override
@@ -53,6 +53,11 @@ public class EatDroppedItemsGoal extends Goal {
 
     @Override
     public void tick() {
+        // tick() also runs on the ticks between goal updates, after the item may have been eaten or picked up
+        if (target == null || !target.isAlive() || target.getItem().isEmpty()) {
+            target = null;
+            return;
+        }
         if (bug.distanceToSqr(target) < 0.8) {
             if (bug.tickCount % 30 == 0 && bug.level() instanceof ServerLevel level) {
                 ItemStack stack = target.getItem();

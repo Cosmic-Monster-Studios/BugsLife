@@ -201,3 +201,53 @@ idea {
         downloadJavadoc = true
     }
 }
+
+// Native regression tests are a separate source set: never included in the shipped mod jar.
+sourceSets {
+    gametest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+configurations {
+    gametestImplementation.extendsFrom implementation
+    gametestCompileOnly.extendsFrom compileOnly
+    gametestRuntimeOnly.extendsFrom runtimeOnly
+}
+def regressionDirectory = providers.gradleProperty('bugslife.test_run_dir')
+        .map { file(it) }.getOrElse(new File(System.getProperty('java.io.tmpdir'), 'bugslife-native-regressions'))
+if (!regressionDirectory.isAbsolute()) throw new GradleException('bugslife.test_run_dir must be absolute')
+def regressionReport = new File(regressionDirectory, 'junit.xml')
+neoForge {
+    addModdingDependenciesTo sourceSets.gametest
+    mods {
+        bugslifeRegressionTests {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.gametest
+        }
+    }
+    runs {
+        configureEach { loadedMods = [mods."${project.mod_id}"] }
+        gameTestServer {
+            sourceSet = sourceSets.gametest
+            loadedMods = [mods.bugslifeRegressionTests]
+            gameDirectory = regressionDirectory
+            systemProperty 'bugslife.tests.report', regressionReport.absolutePath
+        }
+    }
+}
+tasks.named('runGameTestServer') {
+    doFirst {
+        regressionDirectory.mkdirs()
+        if (regressionReport.exists() && !regressionReport.delete())
+            throw new GradleException("Cannot remove stale regression report: ${regressionReport}")
+    }
+    doLast {
+        if (!regressionReport.isFile()) throw new GradleException('GameTest server produced no JUnit report')
+        def report = new groovy.xml.XmlSlurper(false, false).parse(regressionReport)
+        def cases = report.depthFirst().findAll { it.name() == 'testcase' }
+        if (cases.size() != 9 || cases.any { it.failure.size() || it.error.size() || it.skipped.size() })
+            throw new GradleException("Native regressions failed, were skipped, or were not all discovered: ${regressionReport}")
+    }
+}
+tasks.named('check') { dependsOn tasks.named('runGameTestServer') }

@@ -66,6 +66,12 @@ public class PredatorGoal extends Goal {
 
     @Override
     public void tick() {
+        // tick() also runs on the ticks where canContinueToUse() is not re-checked (requiresUpdateEveryTick),
+        // so the prey may already be eaten, caught or despawned here
+        if (target == null || !target.isAlive()) {
+            ticks = 0;
+            return;
+        }
         ticks--;
         bug.getLookControl().setLookAt(target);
         double dist = bug.distanceToSqr(target);

@@ -79,15 +79,25 @@ public class BugNetItem extends Item {
         double reach = player.entityInteractionRange() + AIM_ASSIST;
         Vec3 eye = player.getEyePosition();
         Vec3 end = eye.add(player.getViewVector(1.0f).scale(reach));
-        // stop at the first solid block, so a bug behind a wall can't be netted
-        HitResult block = player.level().clip(new ClipContext(eye, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
-        double limit = block.getType() == HitResult.Type.MISS ? reach * reach : eye.distanceToSqr(block.getLocation()) + 0.25;
         BugEntity best = null;
-        double bestDist = limit;
+        double bestDist = reach * reach;
         for (BugEntity bug : player.level().getEntitiesOfClass(BugEntity.class, new AABB(eye, end).inflate(AIM_ASSIST + 1.0), BugEntity::isAlive)) {
-            AABB box = bug.getBoundingBox().inflate(AIM_ASSIST);
+            AABB body = bug.getBoundingBox();
+            AABB box = body.inflate(AIM_ASSIST);
             Optional<Vec3> hit = box.contains(eye) ? Optional.of(eye) : box.clip(eye, end);
             if (hit.isEmpty()) continue;
+            // Aim assistance may extend through a pane or wall. Check the real
+            // body point nearest the assisted hit, so only an exposed edge counts.
+            Vec3 target = new Vec3(
+                    Math.clamp(hit.get().x, body.minX, body.maxX),
+                    Math.clamp(hit.get().y, body.minY, body.maxY),
+                    Math.clamp(hit.get().z, body.minZ, body.maxZ));
+            HitResult obstruction = player.level().clip(new ClipContext(eye, target,
+                    ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+            // A body touching a block's surface is visible; only a collider
+            // strictly before that surface obstructs it.
+            if (obstruction.getType() != HitResult.Type.MISS
+                    && eye.distanceToSqr(obstruction.getLocation()) + 1.0E-7 < eye.distanceToSqr(target)) continue;
             double d = eye.distanceToSqr(hit.get());
             if (d < bestDist) {
                 bestDist = d;
@@ -101,6 +111,12 @@ public class BugNetItem extends Item {
         if (!com.bugslife.entity.SpecialBehaviors.catchable(bug)) {
             if (!player.level().isClientSide) {
                 player.displayClientMessage(Component.translatable("bugslife.msg.underground").withStyle(ChatFormatting.GRAY), true);
+            }
+            return InteractionResult.PASS;
+        }
+        if (bug.owner != null && !bug.owner.equals(player.getUUID())) {
+            if (!player.level().isClientSide) {
+                player.displayClientMessage(Component.translatable("bugslife.msg.not_your_pet").withStyle(ChatFormatting.GRAY), true);
             }
             return InteractionResult.PASS;
         }
@@ -130,9 +146,9 @@ public class BugNetItem extends Item {
             if (bug.hasCustomName()) {
                 filled.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, bug.getCustomName());
             }
-            if (!player.getInventory().add(filled)) {
-                player.drop(filled, false);
-            }
+            // Inventory.add claims success for a creative player even when nothing fit, deleting the bug
+            boolean stored = (!creative || player.getInventory().getFreeSlot() >= 0) && player.getInventory().add(filled);
+            if (!stored) player.drop(filled, false);
             level.sendParticles(ParticleTypes.POOF, bug.getX(), bug.getY() + 0.2, bug.getZ(), 6, 0.15, 0.15, 0.15, 0.01);
             level.playSound(null, bug.blockPosition(), SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS, 0.8f, 1.3f);
             JournalEvents.recordCatch(serverPlayer, data);

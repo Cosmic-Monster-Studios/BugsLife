@@ -9,6 +9,7 @@ import com.bugslife.registry.ModItems;
 import com.bugslife.registry.ModTriggers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -89,7 +91,10 @@ public class BugJarItem extends Item {
         BlockPos pos = context.getClickedPos().relative(context.getClickedFace());
         BugEntity bug = BugEntity.fromData(server, data);
         if (bug == null) return InteractionResult.FAIL;
-        bug.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, context.getRotation() + 180f, 0);
+        // stand on whatever occupies the cell (snow layers, carpet, slabs) rather than inside it
+        VoxelShape shape = level.getBlockState(pos).getCollisionShape(level, pos);
+        double y = pos.getY() + (shape.isEmpty() ? 0 : shape.max(Direction.Axis.Y));
+        bug.moveTo(pos.getX() + 0.5, y, pos.getZ() + 0.5, context.getRotation() + 180f, 0);
         bug.finalizeSpawn(server, server.getCurrentDifficultyAt(pos), MobSpawnType.BUCKET, null);
         bug.setPrismatic(data.prismatic());
         if (stack.has(DataComponents.CUSTOM_NAME)) {
@@ -98,7 +103,8 @@ public class BugJarItem extends Item {
         if (data.species().movement() == Movement.HANG) {
             bug.attachToCeiling();
         }
-        server.addFreshEntity(bug);
+        // a cancelled spawn keeps the bug in the jar
+        if (!server.addFreshEntity(bug)) return InteractionResult.FAIL;
         server.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.PLAYERS, 0.8f, 1.3f);
         Player player = context.getPlayer();
         if (player != null) {

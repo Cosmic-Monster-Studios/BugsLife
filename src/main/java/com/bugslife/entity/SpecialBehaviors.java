@@ -93,6 +93,11 @@ public final class SpecialBehaviors {
         return SMALL_PREY.contains(b.species());
     }
 
+    /** Whether the bug may change blocks in the world (respects the mobGriefing game rule and NeoForge's event). */
+    public static boolean canGrief(BugEntity bug) {
+        return net.neoforged.neoforge.event.EventHooks.canEntityGrief(bug.level(), bug);
+    }
+
     // ================================================================== goals
 
     public static void addGoals(BugEntity bug, GoalSelector goals, GoalSelector targets) {
@@ -313,16 +318,19 @@ public final class SpecialBehaviors {
 
     private static void tickAntlion(BugEntity bug, ServerLevel level) {
         boolean onSand = level.getBlockState(bug.blockPosition().below()).is(BlockTags.SAND);
-        bug.setFlag(BugEntity.FLAG_HIDDEN, onSand && bug.getNavigation().isDone());
-        if (bug.tickCount % 5 != 0) return;
+        boolean buried = onSand && bug.getNavigation().isDone();
+        bug.setFlag(BugEntity.FLAG_HIDDEN, buried);
+        // the pit only works while the antlion sits buried in it
+        if (!buried || bug.tickCount % 5 != 0) return;
         for (LivingEntity e : level.getEntitiesOfClass(LivingEntity.class, bug.getBoundingBox().inflate(0.4, 0.3, 0.4), e -> e != bug)) {
             if (e instanceof Player p && (p.isCreative() || p.isSpectator())) continue;
-            if (e instanceof BugEntity other && isSmallPrey(other)) {
+            // wild prey only, and one per scan; a released pet is merely trapped like anything else
+            if (e instanceof BugEntity other && isSmallPrey(other) && other.isAlive() && !other.isFromJar()) {
                 bug.triggerAnim("action", "grab");
                 level.sendParticles(ParticleTypes.ITEM_SLIME, other.getX(), other.getY(), other.getZ(), 4, 0.05, 0.05, 0.05, 0.02);
                 other.discard();
                 bug.heal(2);
-                continue;
+                return;
             }
             if (bug.specialCooldown == 0) {
                 if (com.bugslife.item.ChitinGear.bugProof(e)) continue;
@@ -376,6 +384,7 @@ public final class SpecialBehaviors {
     }
 
     private static void scatterPetals(BugEntity bug, ServerLevel level) {
+        if (!canGrief(bug)) return;
         int petals = 0;
         BlockPos o = bug.blockPosition();
         for (BlockPos p : BlockPos.betweenClosed(o.offset(-5, -4, -5), o.offset(5, 2, 5))) {
@@ -393,6 +402,7 @@ public final class SpecialBehaviors {
     }
 
     private static void plantMushroom(BugEntity bug, ServerLevel level) {
+        if (!canGrief(bug)) return;
         int shrooms = 0;
         BlockPos o = bug.blockPosition();
         for (BlockPos p : BlockPos.betweenClosed(o.offset(-4, -2, -4), o.offset(4, 2, 4))) {

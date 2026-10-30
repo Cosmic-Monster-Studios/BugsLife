@@ -18,20 +18,22 @@
     "c": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [
-          {
-            "items": "bugslife:chitin_helmet"
-          },
-          {
-            "items": "bugslife:chitin_chestplate"
-          },
-          {
-            "items": "bugslife:chitin_leggings"
-          },
-          {
-            "items": "bugslife:chitin_boots"
+        "player": {
+          "equipment": {
+            "head": {
+              "items": "bugslife:chitin_helmet"
+            },
+            "chest": {
+              "items": "bugslife:chitin_chestplate"
+            },
+            "legs": {
+              "items": "bugslife:chitin_leggings"
+            },
+            "feet": {
+              "items": "bugslife:chitin_boots"
+            }
           }
-        ]
+        }
       }
     }
   },

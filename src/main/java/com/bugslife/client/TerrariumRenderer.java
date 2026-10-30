@@ -79,7 +79,7 @@ public class TerrariumRenderer implements BlockEntityRenderer<TerrariumBlockEnti
         for (int i = 0; i < bugs.size(); i++) {
             BugEntity e = be.renderBugs.get(i);
             BugData d = bugs.get(i);
-            if (e.species() != d.species() || e.isPrismatic() != d.prismatic()) return true;
+            if (e.species() != d.species() || e.isPrismatic() != d.prismatic() || e.isBaby() != d.baby()) return true;
         }
         return false;
     }

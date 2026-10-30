@@ -68,6 +68,9 @@ public class ClingGoal extends Goal {
 
     @Override
     public void tick() {
+        if (stand == null) {
+            return;
+        }
         ticks--;
         double dx = bug.getX() - (stand.getX() + 0.5);
         double dz = bug.getZ() - (stand.getZ() + 0.5);

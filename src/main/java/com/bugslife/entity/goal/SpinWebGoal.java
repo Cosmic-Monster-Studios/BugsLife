@@ -30,7 +30,7 @@ public class SpinWebGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (!Config.ORB_WEAVERS_SPIN_WEBS.get() || spider.isFromJar() || spider.specialCooldown > 0) return false;
+        if (spider.specialCooldown > 0 || !canSpin()) return false;
         if (spider.level().isDay() || spider.getRandom().nextInt(200) != 0) return false;
         if (countWebs() >= 2) {
             spider.specialCooldown = 2400;
@@ -38,6 +38,11 @@ public class SpinWebGoal extends Goal {
         }
         spot = findSpot();
         return spot != null;
+    }
+
+    private boolean canSpin() {
+        return Config.ORB_WEAVERS_SPIN_WEBS.get() && !spider.isFromJar()
+                && com.bugslife.entity.SpecialBehaviors.canGrief(spider);
     }
 
     private int countWebs() {
@@ -68,7 +73,7 @@ public class SpinWebGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return spot != null && ticks > 0;
+        return spot != null && ticks > 0 && canSpin();
     }
 
     @Override
@@ -79,9 +84,21 @@ public class SpinWebGoal extends Goal {
 
     @Override
     public void tick() {
+        if (spot == null || !canSpin()) {
+            ticks = 0;
+            spider.getNavigation().stop();
+            return;
+        }
         ticks--;
         if (spider.distanceToSqr(spot.getX() + 0.5, spot.getY() + 0.5, spot.getZ() + 0.5) < 4.0
                 && spider.level().getBlockState(spot).isAir()) {
+            // Another weaver may have placed a web since this goal acquired its spot.
+            if (countWebs() >= 2) {
+                spider.specialCooldown = 2400;
+                ticks = 0;
+                spider.getNavigation().stop();
+                return;
+            }
             spider.level().setBlockAndUpdate(spot, Blocks.COBWEB.defaultBlockState());
             spider.playSound(SoundEvents.SPIDER_AMBIENT, 0.3f, 2.0f);
             spider.specialCooldown = 6000;

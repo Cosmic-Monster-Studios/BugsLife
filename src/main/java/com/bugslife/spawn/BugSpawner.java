@@ -15,6 +15,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import java.util.ArrayList;
@@ -36,9 +37,12 @@ public final class BugSpawner {
     public static void onLevelTick(LevelTickEvent.Post event) {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
         if (!level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) return;
-        if (level.getGameTime() % Config.SPAWN_INTERVAL.get() != 0) return;
+        if (Config.SPAWN_CHANCE_MULTIPLIER.get() <= 0) return;
+        int interval = Math.max(1, Config.SPAWN_INTERVAL.get());
+        long time = level.getGameTime();
         for (ServerPlayer player : level.players()) {
-            if (!player.isSpectator()) {
+            // offset by entity id so players do not all spawn on the same tick
+            if (!player.isSpectator() && (time + player.getId()) % interval == 0) {
                 spawnAround(level, player);
             }
         }
@@ -61,7 +65,7 @@ public final class BugSpawner {
             double dist = 10 + random.nextDouble() * 30;
             BlockPos origin = BlockPos.containing(player.getX() + Mth.cos(angle) * dist,
                     player.getY() + random.nextInt(33) - 16, player.getZ() + Mth.sin(angle) * dist);
-            if (!level.isLoaded(origin) || origin.getY() < level.getMinBuildHeight() || origin.getY() >= level.getMaxBuildHeight()) {
+            if (!level.isPositionEntityTicking(origin) || origin.getY() < level.getMinBuildHeight() || origin.getY() >= level.getMaxBuildHeight()) {
                 continue;
             }
             for (BugSpecies species : BugSpecies.values()) {
@@ -76,7 +80,8 @@ public final class BugSpawner {
                     }
                 }
                 BlockPos pos = species.habitat().find(level, origin, random);
-                if (pos != null) {
+                // surface habitats move Y to the heightmap; keep the spawn inside the box the cap counts
+                if (pos != null && area.contains(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5)) {
                     candidates.add(new Candidate(species, pos));
                 }
             }
@@ -102,9 +107,10 @@ public final class BugSpawner {
                 b -> b.species() == pick.species()).size();
         if (sameNearby >= 6) return;
         int count = Mth.nextInt(random, pick.species().groupMin(), pick.species().groupMax());
+        count = Math.min(count, Config.MAX_BUGS_NEAR_PLAYER.get() - wild);
         for (int n = 0; n < count; n++) {
             BlockPos pos = n == 0 ? pick.pos() : jitter(level, pick, random);
-            if (pos != null) {
+            if (pos != null && area.contains(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5)) {
                 spawn(level, pick.species(), pos, random);
             }
         }
@@ -124,7 +130,7 @@ public final class BugSpawner {
         if (bug == null) return null;
         bug.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, random.nextFloat() * 360f, 0);
         if (!level.noCollision(bug)) return null;
-        bug.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null);
+        EventHooks.finalizeMobSpawn(bug, level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null);
         Predicate<BlockState> bark = BugEntity.barkFor(species);
         if (bark != null) {
             for (Direction d : Direction.Plane.HORIZONTAL) {
@@ -134,7 +140,8 @@ public final class BugSpawner {
                 }
             }
         }
-        level.addFreshEntity(bug);
+        // false when a FinalizeSpawnEvent listener cancelled the spawn
+        if (!level.addFreshEntity(bug)) return null;
         return bug;
     }
 }

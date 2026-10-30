@@ -11,7 +11,10 @@
       "tag": "c:glass_blocks/colorless"
     },
     "J": {
-      "item": "bugslife:bug_jar"
+      "type": "neoforge:components",
+      "items": "bugslife:bug_jar",
+      "components": {},
+      "strict": true
     },
     "P": {
       "tag": "minecraft:planks"

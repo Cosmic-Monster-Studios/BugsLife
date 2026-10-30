@@ -22,14 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The Field Guide: a page of all twenty bugs (undiscovered ones are hidden but hint where to look) and a detail page
+ * The Field Guide: a catalog of all bugs (undiscovered ones are hidden but hint where to look) and a detail page
  * with a live, animated model of the selected bug.
  */
 public class FieldGuideScreen extends Screen {
-    private static final int W = 340;
-    private static final int H = 214;
+    private static final int MAX_W = 340;
+    private static final int MAX_H = 214;
     private static final int COLS = 5;
-    private static final int TILE = 28;
     private static final int PER_PAGE = 20;
 
     private static final int PAPER = 0xFFF1E6CC;
@@ -43,6 +42,10 @@ public class FieldGuideScreen extends Screen {
     private static BugSpecies bookmark;
     private BugSpecies selected;
     private int page;
+    private double detailScroll;
+    private int detailScrollMax;
+    private boolean draggingDetail;
+    private boolean initialized;
 
     public FieldGuideScreen() {
         super(Component.translatable("gui.bugslife.field_guide"));
@@ -63,6 +66,7 @@ public class FieldGuideScreen extends Screen {
     }
 
     private void select(BugSpecies s) {
+        if (selected != s) detailScroll = 0;
         selected = s;
         page = s.ordinal() / PER_PAGE;
     }
@@ -76,22 +80,79 @@ public class FieldGuideScreen extends Screen {
         }
     }
 
+    private int bookWidth() {
+        return Math.min(MAX_W, Math.max(1, width - 8));
+    }
+
+    private int bookHeight() {
+        return Math.min(MAX_H, Math.max(1, height - 8));
+    }
+
+    private int tileSize() {
+        int across = (bookWidth() / 2 - 16 - (COLS - 1) * 3) / COLS;
+        int down = (navY() - 8 - gridY() - 3 * 5) / 4;
+        return Math.max(16, Math.min(28, Math.min(across, down)));
+    }
+
+    private int gridX() {
+        return left() + 8;
+    }
+
+    private int gridY() {
+        return top() + 38;
+    }
+
+    private int tileX(int slot) {
+        return gridX() + (slot % COLS) * (tileSize() + 3);
+    }
+
+    private int tileY(int slot) {
+        return gridY() + (slot / COLS) * (tileSize() + 5);
+    }
+
     private int prevX() {
-        return left() + 14;
+        return gridX();
     }
 
     private int nextX() {
-        return left() + 14 + COLS * (TILE + 4) - 12;
+        return gridX() + COLS * tileSize() + (COLS - 1) * 3 - 12;
     }
 
     private int navY() {
-        return top() + 28 + 4 * (TILE + 5) + 4;
+        return top() + bookHeight() - 24;
+    }
+
+    private int detailX() {
+        return left() + bookWidth() / 2 + 10;
+    }
+
+    private int detailTop() {
+        return top() + 10;
+    }
+
+    private int detailBottom() {
+        return top() + bookHeight() - 10;
+    }
+
+    private int detailWidth() {
+        return Math.max(1, bookWidth() - bookWidth() / 2 - 28);
+    }
+
+    private int scrollX() {
+        return left() + bookWidth() - 10;
+    }
+
+    private boolean overDetail(double mouseX, double mouseY) {
+        return mouseX >= detailX() && mouseX < left() + bookWidth() - 4
+                && mouseY >= detailTop() && mouseY < detailBottom();
     }
 
     @Override
     public void init() {
         super.init();
-        page = selected.ordinal() / PER_PAGE;
+        if (!initialized) page = selected.ordinal() / PER_PAGE;
+        page = Math.max(0, Math.min(pages() - 1, page));
+        initialized = true;
     }
 
     @Override
@@ -101,11 +162,11 @@ public class FieldGuideScreen extends Screen {
     }
 
     private int left() {
-        return (width - W) / 2;
+        return (width - bookWidth()) / 2;
     }
 
     private int top() {
-        return (height - H) / 2;
+        return (height - bookHeight()) / 2;
     }
 
     @Override
@@ -117,9 +178,9 @@ public class FieldGuideScreen extends Screen {
     public void renderBackground(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(g, mouseX, mouseY, partialTick);
         int x = left(), y = top();
-        g.fill(x - 4, y - 4, x + W + 4, y + H + 4, LEATHER);
-        g.fill(x, y, x + W, y + H, PAPER);
-        g.fill(x + W / 2 - 1, y + 4, x + W / 2 + 1, y + H - 4, PAPER_DARK);
+        g.fill(x - 4, y - 4, x + bookWidth() + 4, y + bookHeight() + 4, LEATHER);
+        g.fill(x, y, x + bookWidth(), y + bookHeight(), PAPER);
+        g.fill(x + bookWidth() / 2 - 1, y + 4, x + bookWidth() / 2 + 1, y + bookHeight() - 4, PAPER_DARK);
     }
 
     @Override
@@ -128,9 +189,12 @@ public class FieldGuideScreen extends Screen {
         BugJournal journal = ClientJournal.get();
         int x = left(), y = top();
 
-        g.drawString(font, title, x + 12, y + 10, INK, false);
+        int catalogWidth = bookWidth() / 2 - 16;
+        // Long translated headers remain available in their tooltip; the detail text scrolls in full.
+        g.drawString(font, font.plainSubstrByWidth(title.getString(), catalogWidth), gridX(), y + 10, INK, false);
         Component progress = Component.translatable("gui.bugslife.discovered", journal.discovered(), BugSpecies.values().length);
-        g.drawString(font, progress, x + W / 2 - 10 - font.width(progress), y + 10, INK_SOFT, false);
+        g.drawString(font, font.plainSubstrByWidth(progress.getString(), catalogWidth), gridX(), y + 22, INK_SOFT, false);
+        int tile = tileSize();
 
         BugSpecies hovered = null;
         BugSpecies[] all = BugSpecies.values();
@@ -138,23 +202,23 @@ public class FieldGuideScreen extends Screen {
         for (int i = start; i < Math.min(all.length, start + PER_PAGE); i++) {
             BugSpecies s = all[i];
             int slot = i - start;
-            int tx = x + 14 + (slot % COLS) * (TILE + 4);
-            int ty = y + 28 + (slot / COLS) * (TILE + 5);
+            int tx = tileX(slot);
+            int ty = tileY(slot);
             boolean known = journal.count(s) > 0;
-            boolean hover = mouseX >= tx && mouseX < tx + TILE && mouseY >= ty && mouseY < ty + TILE;
+            boolean hover = mouseX >= tx && mouseX < tx + tile && mouseY >= ty && mouseY < ty + tile;
             if (hover) hovered = s;
             if (s == selected) {
-                g.fill(tx - 2, ty - 2, tx + TILE + 2, ty + TILE + 2, INK);
+                g.fill(tx - 2, ty - 2, tx + tile + 2, ty + tile + 2, INK);
             }
-            g.fill(tx, ty, tx + TILE, ty + TILE, hover ? 0xFFEADCB9 : PAPER_DARK);
-            g.fill(tx, ty + TILE - 2, tx + TILE, ty + TILE, 0xFF000000 | rarityColor(s));
-            g.renderItem(BugJarItem.filled(new BugData(s, false, false)), tx + 6, ty + 5);
+            g.fill(tx, ty, tx + tile, ty + tile, hover ? 0xFFEADCB9 : PAPER_DARK);
+            g.fill(tx, ty + tile - 2, tx + tile, ty + tile, 0xFF000000 | rarityColor(s));
+            g.renderItem(BugJarItem.filled(new BugData(s, false, false)), tx + (tile - 16) / 2, ty + (tile - 16) / 2);
             if (!known) {
                 // items render at a higher z than plain fills, so lift the cover above them
                 g.pose().pushPose();
                 g.pose().translate(0, 0, 250);
-                g.fill(tx, ty, tx + TILE, ty + TILE - 2, 0xE6E3D3B0);
-                g.drawString(font, "?", tx + TILE / 2 - 2, ty + TILE / 2 - 5, INK_SOFT, false);
+                g.fill(tx, ty, tx + tile, ty + tile - 2, 0xE6E3D3B0);
+                g.drawString(font, "?", tx + tile / 2 - 2, ty + tile / 2 - 5, INK_SOFT, false);
                 g.pose().popPose();
             }
         }
@@ -172,71 +236,107 @@ public class FieldGuideScreen extends Screen {
             g.drawString(font, ">", nextX() + 3, navY() + 2, hot ? INK : INK_SOFT, false);
         }
 
-        renderDetail(g, journal, x + W / 2 + 10, y + 10, partialTick);
+        renderDetail(g, journal, partialTick);
 
-        if (hovered != null) {
+        if (mouseX >= gridX() && mouseX < gridX() + catalogWidth && mouseY >= y + 8 && mouseY < y + 32) {
+            g.renderTooltip(font, mouseY < y + 20 ? title : progress, mouseX, mouseY);
+        } else if (hovered != null) {
             Component name = journal.count(hovered) > 0 ? hovered.displayName() : Component.literal("???");
             g.renderTooltip(font, name.copy().withStyle(hovered.rarity().color), mouseX, mouseY);
         }
     }
 
-    private void renderDetail(GuiGraphics g, BugJournal journal, int x, int y, float partialTick) {
-        BugSpecies s = selected;
-        int pageW = W / 2 - 20;
-        int caught = journal.count(s);
-        boolean known = caught > 0;
-
-        Component name = known ? s.displayName() : Component.literal("???");
-        g.drawString(font, name.copy().withStyle(ChatFormatting.BOLD), x, y, inkFor(s), false);
-        g.drawString(font, Component.translatable("bugslife.rarity." + s.rarity().getSerializedName()), x, y + 11, inkFor(s), false);
-        if (known) {
-            Component c = Component.translatable("gui.bugslife.caught", caught);
-            g.drawString(font, c, x + pageW - font.width(c), y + 11, INK_SOFT, false);
+    private void renderDetail(GuiGraphics g, BugJournal journal, float partialTick) {
+        int x = detailX(), y = detailTop(), pageW = detailWidth();
+        int viewport = detailBottom() - y;
+        int contentHeight = detailContents(null, journal, x, 0, pageW, partialTick);
+        detailScrollMax = Math.max(0, contentHeight - viewport);
+        detailScroll = Math.max(0, Math.min(detailScrollMax, detailScroll));
+        g.enableScissor(x, y, x + pageW, detailBottom());
+        try {
+            detailContents(g, journal, x, y - (int) detailScroll, pageW, partialTick);
+        } finally {
+            g.disableScissor();
         }
-
-        int modelY = y + 24;
-        g.fill(x, modelY, x + pageW, modelY + 62, PAPER_DARK);
-        if (known) {
-            renderModel(g, s, x + pageW / 2, modelY + 44, partialTick);
-        } else {
-            g.pose().pushPose();
-            g.pose().translate(x + pageW / 2f - 6, modelY + 18, 0);
-            g.pose().scale(3, 3, 1);
-            g.drawString(font, "?", 0, 0, INK_SOFT, false);
-            g.pose().popPose();
-        }
-
-        int ty = modelY + 68;
-        ty = paragraph(g, Component.translatable("gui.bugslife.habitat").withStyle(ChatFormatting.DARK_GREEN),
-                Component.translatable(s.descriptionKey("habitat")), x, ty, pageW);
-        if (known) {
-            ItemStack food = firstItem(s);
-            if (!food.isEmpty()) {
-                g.drawString(font, Component.translatable("gui.bugslife.food"), x, ty + 4, INK, false);
-                g.renderItem(food, x + pageW - 18, ty);
-                ty += 17;
-            }
-            ItemStack product = s.makeProduct();
-            g.drawString(font, Component.translatable("gui.bugslife.harvest"), x, ty + 4, INK, false);
-            g.renderItem(product, x + pageW - 18, ty);
-            ty += 19;
-            paragraph(g, null, Component.translatable(s.descriptionKey("fact")).withStyle(ChatFormatting.ITALIC), x, ty, pageW);
-        } else {
-            paragraph(g, null, Component.translatable("gui.bugslife.unknown").withStyle(ChatFormatting.ITALIC), x, ty + 2, pageW);
+        if (detailScrollMax > 0) {
+            int sx = scrollX();
+            int trackTop = y + 10, trackBottom = detailBottom() - 10;
+            int trackHeight = Math.max(1, trackBottom - trackTop);
+            int thumbHeight = Math.min(trackHeight, Math.max(14, trackHeight * viewport / contentHeight));
+            int thumbY = trackTop + (int) ((trackHeight - thumbHeight) * detailScroll / detailScrollMax);
+            g.fill(sx, trackTop, sx + 4, trackBottom, PAPER_DARK);
+            g.fill(sx, thumbY, sx + 4, thumbY + thumbHeight, INK_SOFT);
+            g.drawString(font, "^", sx - 1, y, detailScroll > 0 ? INK : PAPER_DARK, false);
+            g.drawString(font, "v", sx - 1, detailBottom() - 8, detailScroll < detailScrollMax ? INK : PAPER_DARK, false);
         }
     }
 
-    private int paragraph(GuiGraphics g, Component heading, Component body, int x, int y, int w) {
+    /** A shared measure/draw pass keeps the scroll limit aligned with wrapped translations and item rows. */
+    private int detailContents(GuiGraphics g, BugJournal journal, int x, int y, int pageW, float partialTick) {
+        int startY = y;
+        BugSpecies s = selected;
+        int caught = journal.count(s);
+        boolean known = caught > 0;
+        Component name = known ? s.displayName() : Component.literal("???");
+        y = paragraph(g, null, name.copy().withStyle(ChatFormatting.BOLD), x, y, pageW, inkFor(s));
+        y = paragraph(g, null, Component.translatable("bugslife.rarity." + s.rarity().getSerializedName()), x, y, pageW, inkFor(s));
+        if (known) {
+            y = paragraph(g, null, Component.translatable("gui.bugslife.caught", caught), x, y, pageW, INK_SOFT);
+        }
+        int modelY = y + 2;
+        if (g != null) {
+            g.fill(x, modelY, x + pageW, modelY + 62, PAPER_DARK);
+            if (known) {
+                renderModel(g, s, x + pageW / 2, modelY + 44, partialTick);
+            } else {
+                g.pose().pushPose();
+                g.pose().translate(x + pageW / 2f - 6, modelY + 18, 0);
+                g.pose().scale(3, 3, 1);
+                g.drawString(font, "?", 0, 0, INK_SOFT, false);
+                g.pose().popPose();
+            }
+        }
+        y = paragraph(g, Component.translatable("gui.bugslife.habitat").withStyle(ChatFormatting.DARK_GREEN),
+                Component.translatable(s.descriptionKey("habitat")), x, modelY + 68, pageW, INK_SOFT);
+        if (known) {
+            ItemStack food = firstItem(s);
+            if (!food.isEmpty()) {
+                y = itemRow(g, Component.translatable("gui.bugslife.food"), food, x, y, pageW);
+            }
+            y = itemRow(g, Component.translatable("gui.bugslife.harvest"), s.makeProduct(), x, y, pageW);
+            y = paragraph(g, null, Component.translatable(s.descriptionKey("fact")).withStyle(ChatFormatting.ITALIC),
+                    x, y, pageW, INK_SOFT);
+        } else {
+            y = paragraph(g, null, Component.translatable("gui.bugslife.unknown").withStyle(ChatFormatting.ITALIC),
+                    x, y + 2, pageW, INK_SOFT);
+        }
+        return y - startY;
+    }
+
+    private int itemRow(GuiGraphics g, Component label, ItemStack item, int x, int y, int w) {
+        int labelEnd = paragraph(g, null, label, x, y + 4, Math.max(1, w - 22), INK);
+        if (g != null) g.renderItem(item, x + w - 18, y);
+        return Math.max(y + 19, labelEnd + 2);
+    }
+
+    private int paragraph(GuiGraphics g, Component heading, Component body, int x, int y, int w, int color) {
         if (heading != null) {
-            g.drawString(font, heading, x, y, INK, false);
-            y += 10;
+            for (FormattedCharSequence line : font.split(heading, w)) {
+                if (g != null) g.drawString(font, line, x, y, INK, false);
+                y += 10;
+            }
         }
         List<FormattedCharSequence> lines = font.split(body, w);
         for (FormattedCharSequence line : lines) {
-            g.drawString(font, line, x, y, INK_SOFT, false);
+            if (g != null) g.drawString(font, line, x, y, color, false);
             y += 9;
         }
         return y + 3;
+    }
+
+    private void scrollToMouse(double mouseY) {
+        double fraction = (mouseY - detailTop() - 10) / Math.max(1, detailBottom() - detailTop() - 20);
+        detailScroll = Math.max(0, Math.min(detailScrollMax, fraction * detailScrollMax));
     }
 
     private void renderModel(GuiGraphics g, BugSpecies s, int cx, int cy, float partialTick) {
@@ -280,7 +380,13 @@ public class FieldGuideScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        int x = left(), y = top();
+        int tile = tileSize();
+        if (button == 0 && detailScrollMax > 0 && mouseX >= scrollX() - 3 && mouseX < scrollX() + 7
+                && mouseY >= detailTop() && mouseY < detailBottom()) {
+            draggingDetail = true;
+            scrollToMouse(mouseY);
+            return true;
+        }
         if (mouseY >= navY() && mouseY < navY() + 12) {
             if (mouseX >= prevX() && mouseX < prevX() + 12) {
                 turnPage(-1);
@@ -295,10 +401,10 @@ public class FieldGuideScreen extends Screen {
         int start = page * PER_PAGE;
         for (int i = start; i < Math.min(all.length, start + PER_PAGE); i++) {
             int slot = i - start;
-            int tx = x + 14 + (slot % COLS) * (TILE + 4);
-            int ty = y + 28 + (slot / COLS) * (TILE + 5);
-            if (mouseX >= tx && mouseX < tx + TILE && mouseY >= ty && mouseY < ty + TILE) {
-                selected = all[i];
+            int tx = tileX(slot);
+            int ty = tileY(slot);
+            if (mouseX >= tx && mouseX < tx + tile && mouseY >= ty && mouseY < ty + tile) {
+                select(all[i]);
                 Minecraft.getInstance().getSoundManager().play(net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(
                         net.minecraft.sounds.SoundEvents.BOOK_PAGE_TURN, 1.0f));
                 return true;
@@ -316,6 +422,14 @@ public class FieldGuideScreen extends Screen {
             case 263 -> i = Math.max(0, i - 1);                    // left
             case 264 -> i = Math.min(all.length - 1, i + COLS);   // down
             case 265 -> i = Math.max(0, i - COLS);                 // up
+            case 268 -> {                                          // home: start of detail
+                detailScroll = 0;
+                return true;
+            }
+            case 269 -> {                                          // end: end of detail
+                detailScroll = detailScrollMax;
+                return true;
+            }
             case 266 -> {                                          // page up
                 turnPage(-1);
                 return true;
@@ -334,7 +448,34 @@ public class FieldGuideScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        turnPage(scrollY > 0 ? -1 : 1);
-        return true;
+        if (scrollY == 0) return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+        if (overDetail(mouseX, mouseY)) {
+            detailScroll = Math.max(0, Math.min(detailScrollMax, detailScroll - scrollY * 18));
+            return true;
+        }
+        if (mouseX >= left() && mouseX < left() + bookWidth() / 2
+                && mouseY >= top() && mouseY < top() + bookHeight()) {
+            turnPage(scrollY > 0 ? -1 : 1);
+            return true;
+        }
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        if (draggingDetail && button == 0) {
+            scrollToMouse(mouseY);
+            return true;
+        }
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (draggingDetail && button == 0) {
+            draggingDetail = false;
+            return true;
+        }
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 }
