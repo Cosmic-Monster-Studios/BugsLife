@@ -1,9 +1,68 @@
-# Bug's Life
+<p align="center">
+  <img src="docs/images/title.jpg" alt="Bug's Life">
+</p>
 
-A NeoForge 1.21.1 mod about the tiny world underfoot: seventy bugs that live in their own habitats, which you can
-catch, keep, breed, harvest and (if you're brave) eat. Requires [GeckoLib](https://modrinth.com/mod/geckolib) 4.7+.
+<p align="center">
+  <b>Seventy bugs to find, catch, keep, breed, harvest and (if you're brave) eat.</b><br>
+  A NeoForge mod for Minecraft 1.21.1 by Cosmic Monster Studios.
+</p>
 
-## The original twenty
+<p align="center">
+  <img alt="Minecraft 1.21.1" src="https://img.shields.io/badge/Minecraft-1.21.1-62B47A">
+  <img alt="NeoForge 21.1" src="https://img.shields.io/badge/NeoForge-21.1.x-E8642B">
+  <img alt="Version 1.0.3" src="https://img.shields.io/badge/version-1.0.3-blue">
+  <img alt="Bugs: 70" src="https://img.shields.io/badge/bugs-70-orange">
+</p>
+
+---
+
+Bug's Life fills the world underfoot. Every bug lives in its own habitat, from ladybugs on farmland and fireflies over
+night-time meadows to glowworms on cave ceilings, ember beetles in the Nether and void moths in the End. Catch them with
+a net, keep them in terrariums, breed them, harvest what they make, and fill in the Field Guide as you go.
+
+![A golden-hour meadow](docs/images/meadow.jpg)
+
+## Highlights
+
+- **70 bugs** across every dimension, each with its own habitat, rarity, food and harvest, and most with a behaviour of
+  their own: ladybugs hunt aphids, orb weavers spin real cobwebs, pill bugs roll up, walking sticks freeze when you look
+  at them, storm beetles call down lightning.
+- **Animated 3D models** for every bug (GeckoLib), with glowing layers for fireflies, glowworms, morphos and more.
+- **Bug Net and Bug Jars** to catch them; sneaking and timing help with the rare ones.
+- **Terrariums** that hold bugs, produce their harvest over time, breed matching pairs and light up with glowing bugs.
+- **Field Guide** with a live 3D model of every bug you've caught and habitat hints for the ones you haven't.
+- **Chitin gear**: 3D scale armour that makes you bug-proof, a shield that throws hits back, and seamless decor blocks.
+- **Prismatic bugs**: a 1 in 400 chance for any wild bug to shimmer through the rainbow.
+- **Bug food**, from Roasted Grubs to Cricket Cookies, and **43 advancements**.
+
+## Gallery
+
+<table>
+<tr><td width="33%"><img src="docs/images/monarch.jpg" alt="Monarch over a flower bed at dawn"><br><sub>Monarch over a flower bed at dawn</sub></td><td width="33%"><img src="docs/images/hawk_moth.jpg" alt="Hummingbird hawk-moth"><br><sub>Hummingbird hawk-moth</sub></td><td width="33%"><img src="docs/images/dragonfly.jpg" alt="Dragonfly over a savanna river"><br><sub>Dragonfly over a savanna river</sub></td></tr>
+<tr><td width="33%"><img src="docs/images/ladybug.jpg" alt="Ladybug hunting aphids"><br><sub>Ladybug hunting aphids</sub></td><td width="33%"><img src="docs/images/sakura_moth.jpg" alt="Sakura moth in a cherry grove"><br><sub>Sakura moth in a cherry grove</sub></td><td width="33%"><img src="docs/images/morpho.jpg" alt="Blue morpho over the jungle"><br><sub>Blue morpho over the jungle</sub></td></tr>
+<tr><td width="33%"><img src="docs/images/mayflies.jpg" alt="Mayflies at sunset"><br><sub>Mayflies at sunset</sub></td><td width="33%"><img src="docs/images/fireflies.jpg" alt="Fireflies over the meadow"><br><sub>Fireflies over the meadow</sub></td><td width="33%"><img src="docs/images/glowworms.jpg" alt="Glowworms on a cave ceiling"><br><sub>Glowworms on a cave ceiling</sub></td></tr>
+<tr><td width="33%"><img src="docs/images/ember_beetle.jpg" alt="Ember beetles in a crimson forest"><br><sub>Ember beetles in a crimson forest</sub></td><td width="33%"><img src="docs/images/bug_net.jpg" alt="Catching a monarch with the Bug Net"><br><sub>Catching a monarch with the Bug Net</sub></td><td width="33%"><img src="docs/images/terrarium.jpg" alt="Terrariums and a Firefly Lantern"><br><sub>Terrariums and a Firefly Lantern</sub></td></tr>
+</table>
+
+<sub>Screenshots taken with the Complementary Reimagined shader pack through Iris. The mod itself needs no shaders.</sub>
+
+## Installation
+
+1. Install [NeoForge](https://neoforged.net/) 21.1.x for Minecraft 1.21.1.
+2. Drop the Bug's Life jar into your `mods` folder.
+
+[GeckoLib](https://modrinth.com/mod/geckolib) 4.9.3 is bundled inside the jar, so nothing else is needed. The mod is
+required on both the client and the server.
+
+## Getting started
+
+Craft a **Bug Net** (string and sticks) and a few **Bug Jars** (glass and planks). Use the net on a bug while you carry
+an empty jar and, if it doesn't slip away, it's yours. Craft a **Field Guide** (book and string) to see what lives where,
+then build a **Terrarium** to start a collection. The full guide is [below](#playing).
+
+## The bugs
+
+### The original twenty
 
 | Bug | Rarity | Where to look | Harvest | Favourite food |
 | --- | --- | --- | --- | --- |
@@ -28,7 +87,7 @@ catch, keep, breed, harvest and (if you're brave) eat. Requires [GeckoLib](https
 | Golden Scarab | Legendary | Desert sand at night | Gold nuggets | Golden carrot |
 | Void Moth | Legendary | Chorus plants and end rods in the End | Ender pearl | Chorus fruit |
 
-## The expansion: fifty more
+### The expansion: fifty more
 
 Every one of these has its own trick.
 
@@ -134,7 +193,7 @@ Breeding in a terrarium raises the odds.
 Spawning is controlled in `config/bugslife-common.toml`: spawn interval, attempts, bug cap near a player, a global
 spawn-chance multiplier, and terrarium speed.
 
-## Development
+## Building from source
 
 - `./gradlew build` (JDK 21). The jar lands in `build/libs/`.
 - **Models** are built in Blockbench through the Blockbench MCP plugin, which serves over HTTP at
@@ -148,3 +207,10 @@ spawn-chance multiplier, and terrarium speed.
   are in `tools/textures/chitin_textures.py`.
 - **Lang, models, loot tables, recipes, advancements and tags** come from `tools/gen_resources.py`. Re-run it after
   changing the bug table.
+- **Tests**: `./gradlew check` runs the GameTest regression suite (no GPU or client window needed), and
+  `python -B -m unittest discover -s tools/tests` runs the resource-generator tests. See [docs/TESTING.md](docs/TESTING.md).
+
+## License
+
+Copyright (c) Cosmic Monster Studios. All rights reserved. The source is published for reference; please don't
+redistribute the mod or its assets without permission.
